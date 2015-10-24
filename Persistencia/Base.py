@@ -1,8 +1,8 @@
 __author__ = 'MariaAlejandraLuisFelipe'
-from sqlalchemy import func
+from sqlalchemy import func, ForeignKey
 from sqlalchemy.exc import OperationalError
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,Date,DateTime
 import datetime
@@ -43,6 +43,31 @@ class Agregar():
         paciente=Paciente(idP, ti, name, lastname, gen, birth,phone, age)
         session.add(paciente)
         session.commit()
+
+    def agregarSenal(self, id, orden , data, paciente):
+        Base.metadata.create_all(engine)
+        senal = Senal(id, orden, data, paciente)
+        session.add(senal)
+        session.commit()
+
+
+
+
+class Senal(Base):
+    __tablename__ = 'senales'
+    id =  Column(Integer, primary_key = True )
+    orden =  Column(Integer)
+    data =  Column(String)
+    paciente_id = Column(String, ForeignKey('paciente.id'))
+
+    def __init__(self, id, orden, data, paciente):
+        self.id = id
+        self.orden = orden
+        self.data =  data
+        self.paciente = paciente
+
+
+
 
 
 
