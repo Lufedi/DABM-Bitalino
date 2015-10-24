@@ -27,16 +27,6 @@
      <string>Enviar</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="idp">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>120</y>
-      <width>221</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
@@ -82,7 +72,7 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>120</y>
+      <y>130</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -116,16 +106,6 @@
      <string>Nombres</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="name">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>160</y>
-      <width>221</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
@@ -143,16 +123,6 @@
     </property>
     <property name="text">
      <string>Apellidos</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lastname">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>200</y>
-      <width>221</width>
-      <height>27</height>
-     </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -222,24 +192,6 @@
       <height>31</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>Cédula de ciudadania</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLineEdit" name="phone">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>200</y>
-      <width>101</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
    </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
@@ -289,7 +241,7 @@
      <string>Edad</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="send_2">
+   <widget class="QPushButton" name="clean">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -300,6 +252,46 @@
     </property>
     <property name="text">
      <string>Limpiar</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="idp">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>120</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="name">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>160</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="last">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>200</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="phone">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>200</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
     </property>
    </widget>
   </widget>
