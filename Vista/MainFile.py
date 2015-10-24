@@ -15,13 +15,13 @@ class MainWindows(QtWidgets.QMainWindow):
         self.ui.ti.addItems(self.tids)
         self.ui.gender.addItems(self.gender)
         self.ui.send.clicked.connect(self.enviarPaciente)
+        self.ui.clean.clicked.connect(self.limpia)
         self.add=Agregar()
 
     def enviarPaciente(self):
         idP, ti=self.ui.idp.toPlainText(), self.tids[self.ui.ti.currentIndex()]
         name, last=self.ui.name.toPlainText(), self.ui.last.toPlainText()
-        gender, b=self.gender[self.ui.gender.currentIndex()], self.ui.dateEdit.date()
-        birth=""
+        gender, b=self.gender[self.ui.gender.currentIndex()], self.ui.dateEdit.date() ; birth=""
         if(b.day()<10):
             birth+="0"+str(b.day())
         else:
@@ -30,8 +30,7 @@ class MainWindows(QtWidgets.QMainWindow):
             birth+="/"+"0"+str(b.month())
         else:
             birth+="/"+str(b.month())
-        birth+="/"+str(b.year())[2:4] ; print(birth)
-        age=self.ui.spinBox.value(); phone=self.ui.phone.toPlainText()
+        birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=self.ui.spinBox.value(); phone=self.ui.phone.toPlainText()
         if(not(self.validaDatos(idP, name, last, age, phone))):
             raise Exception("ERROR DATOS CORRUPTOS")
         self.add.agregaPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
@@ -40,9 +39,13 @@ class MainWindows(QtWidgets.QMainWindow):
         r=True
         try:
             int(idP) ; r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 ; int(phone)
-            print(r)
+            print(r) ; return r
         except:
             raise Exception("Datos corruptos")
+
+    def limpia(self):
+        self.ui.idp.setText("")
+        self.ui.name.setText(""), self.ui.last.setText("")
 
 if __name__=="__main__":
     import sys
