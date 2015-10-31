@@ -33,14 +33,15 @@ class MainWindows(QtWidgets.QMainWindow):
         else:
             birth+="/"+str(b.month())
         birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=self.ui.spinBox.value(); phone=self.ui.phone.toPlainText()
-        if(not(self.validaDatos(idP, name, last, age, phone))):
+        if(not(self.validaDatos(idP, name, last, age, phone, b.year()))):
             raise Exception("ERROR DATOS CORRUPTOS")
         self.add.agregaPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
 
-    def validaDatos(self, idP, name, last, age, phone):
+    def validaDatos(self, idP, name, last, age, phone, year):
         r=True
         try:
-            int(idP) ; r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 ; int(phone)
+            int(idP) ; r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 and year+age== datetime.datetime.now().year
+            int(phone)
             print(r) ; return r
         except:
             raise Exception("Datos corruptos")
@@ -48,6 +49,9 @@ class MainWindows(QtWidgets.QMainWindow):
     def limpia(self):
         self.ui.idp.setText("")
         self.ui.name.setText(""), self.ui.last.setText("")
+        self.ui.phone.clear()
+        self.ui.spinBox.clear()
+        self.ui.dateEdit.clear()
 
 class TarjetaBitalinoWindow(QtWidgets.QMainWindow):
     dispositivos=[]
@@ -82,19 +86,20 @@ class TarjetaBitalinoWindow(QtWidgets.QMainWindow):
         data =  self.adaptador.leer()
         self.ui.plainTextEdit.setPlainText(str(data[4:]))
 
-def v1():
+"""def v1():
     import sys
     app = QtWidgets.QApplication(sys.argv)
     pp = TarjetaBitalinoWindow()
     pp.show()
     sys.exit(app.exec())
-v1()
-"""if __name__=="__main__":
+v1()"""
+
+if __name__=="__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     pp = MainWindows()
     pp.show()
     sys.exit(app.exec_())
-"""
 
+print()
 

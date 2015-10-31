@@ -8,7 +8,7 @@ from sqlalchemy import Column, Integer, String,Date,DateTime
 import datetime
 from sqlalchemy.sql import table, column, select, update, insert, and_
 
-engine = create_engine('sqlite:///BaseDeDatos.db', echo=True)
+engine = create_engine('sqlite:///Persistencia/BaseDeDatos.db', echo=True)
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -36,33 +36,6 @@ class Paciente(Base):
                                                                               self.nombres, self.apellidos, self.genero,
                                                                               self.fechaNacimiento, self.edad,
                                                                               self.telefono, self.fechaIngreso)
-
-class Agregar():
-    def agregaPaciente(self, idP, ti, name, lastname, gen, birth,phone, age):
-        Base.metadata.create_all(engine)
-        paciente=Paciente(idP, ti, name, lastname, gen, birth,phone, age)
-        session.add(paciente)
-        session.commit()
-
-    def agregarSenal(self, id, orden , data, paciente):
-        Base.metadata.create_all(engine)
-        senal = Senal(id, orden, data, paciente)
-        session.add(senal)
-        session.commit()
-
-    def agregarAplicacion(self, idtarjeta):
-        Base.metadata.create_all(engine)
-        app = Aplicacion(idtarjeta)
-        session.add(app)
-        session.commit()
-
-    def agregarDiagostrico(self, fecha, comentarios, paciente):
-        Base.metadata.create_all(engine)
-        dia = Diagnostico(fecha, comentarios, paciente)
-        session.add(dia)
-        session.commit()
-
-
 class Senal(Base):
     __tablename__ = 'senales'
     id =  Column(Integer, primary_key = True )
@@ -95,3 +68,29 @@ class Diagnostico(Base):
         self.fecha = fecha
         self.comentarios = comentarios
         self.paciente =  paciente
+
+
+class Agregar():
+    def agregaPaciente(self, idP, ti, name, lastname, gen, birth,phone, age):
+        Base.metadata.create_all(engine)
+        paciente=Paciente(idP, ti, name, lastname, gen, birth,phone, age)
+        session.add(paciente)
+        session.commit()
+
+    def agregarSenal(self, id, orden , data, paciente):
+        Base.metadata.create_all(engine)
+        senal = Senal(id, orden, data, paciente)
+        session.add(senal)
+        session.commit()
+
+    def agregarAplicacion(self, idtarjeta):
+        Base.metadata.create_all(engine)
+        app = Aplicacion(idtarjeta)
+        session.add(app)
+        session.commit()
+
+    def agregarDiagostico(self, fecha, comentarios, paciente):
+        Base.metadata.create_all(engine)
+        dia = Diagnostico(fecha, comentarios, paciente)
+        session.add(dia)
+        session.commit()
