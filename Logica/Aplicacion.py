@@ -13,5 +13,12 @@ class Aplicacion():
     def __init__(self):
         pass
 
+    def consultarPaciente(self, id):
+        try:
+            c = Consulta()
+            c.consultarPorPrecioDeCompra(id)
+        except:
+            raise OperationalError
+
 if __name__=="__main__":
     apl=Aplicacion()
