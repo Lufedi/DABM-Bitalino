@@ -57,8 +57,8 @@ class TarjetaBitalinoWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.buscarDispositivos)
         self.ui.conectar.clicked.connect(self.conectar)
+        self.ui.Leer.clicked.connect(self.leer)
         self.adaptador = Adaptador()
-
 
     def buscarDispositivos(self):
         self.ui.comboBox.clear()
@@ -74,7 +74,14 @@ class TarjetaBitalinoWindow(QtWidgets.QMainWindow):
         print("Conectando")
         mac  = (self.ui.comboBox.currentText()).split("-")[0]
         print(mac)
-        dispositivo = self.adaptador.conectarseADispositivo(mac)
+        self.adaptador.conectarseADispositivo(mac)
+
+    def leer(self):
+        print("Leyendo")
+        self.adaptador.comenzar([0])
+        data =  self.adaptador.leer()
+        self.ui.plainTextEdit.setPlainText(str(data[4:]))
+
 def v1():
     import sys
     app = QtWidgets.QApplication(sys.argv)
