@@ -1,4 +1,4 @@
-__author__ = 'MariaAlejandraBlancoLuisFelipeDiaz'
+
 from Persistencia.Base import *
 from sqlalchemy import func
 from sqlalchemy.exc import OperationalError

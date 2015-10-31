@@ -1,5 +1,5 @@
 from sqlalchemy.sql.base import _from_objects
-__author__ = 'MariaAlejandraLuisFelipe'
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Vista.agregarpacienteGUI import Ui_MainWindow
 from Vista.buscarDispositivosGUI import Ui_MainWindow2

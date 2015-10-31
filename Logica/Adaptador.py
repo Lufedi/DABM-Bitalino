@@ -1,11 +1,5 @@
-
-
-
-
-
 from Logica import bitalino
 
-__author__ = 'Pipe'
 
 from Logica import *
 class Adaptador(object):
