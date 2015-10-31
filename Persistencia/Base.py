@@ -56,6 +56,11 @@ class Agregar():
         session.add(app)
         session.commit()
 
+    def agregarDiagostrico(self, fecha, comentarios, paciente):
+        Base.metadata.create_all(engine)
+        dia = Diagnostico(fecha, comentarios, paciente)
+        session.add(dia)
+        session.commit()
 
 
 class Senal(Base):
@@ -84,7 +89,9 @@ class Diagnostico(Base):
     id = Column(Integer, primary_key= True, autoincrement=True)
     fecha = Column(Date)
     comentarios = Column(String)
+    paciente = Column(String, ForeignKey('paciente.id') )
 
-    def __init__(self,  fecha, comentarios):
+    def __init__(self,  fecha, comentarios, paciente):
         self.fecha = fecha
         self.comentarios = comentarios
+        self.paciente =  paciente
