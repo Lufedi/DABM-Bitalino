@@ -98,7 +98,7 @@ class Agregar():
 class Consulta(object):
     def __init__(self):
         pass
-    def consultarPorPrecioDeCompra(self, id):
+    def consultarPacientePorId(self, id):
         try:
             return session.query(Paciente).filter(Paciente.id== id).all()
         except OperationalError:

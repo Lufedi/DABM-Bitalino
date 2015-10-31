@@ -1,4 +1,7 @@
 
+
+
+
 from Persistencia.Base import *
 from sqlalchemy import func
 from sqlalchemy.exc import OperationalError
@@ -13,10 +16,10 @@ class Aplicacion():
     def __init__(self):
         pass
 
-    def consultarPaciente(self, id):
+    def consultarPacientePorId(self, id):
         try:
             c = Consulta()
-            c.consultarPorPrecioDeCompra(id)
+            c.consultarPacientePorId(id)
         except:
             raise OperationalError
 
