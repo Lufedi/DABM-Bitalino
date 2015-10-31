@@ -1,0 +1,5 @@
+http://www.boxcontrol.net/embedding-matplotlib-plot-on-pyqt5-gui.html#.VjQhS8JdVYo
+Real time Plotting - https://hardsoftlucid.wordpress.com/various-stuff/realtime-plotting/
+Speed Matplotlib - https://taher-zadeh.com/speeding-matplotlib-plotting-times-real-time-monitoring-purposes/
+stack - http://stackoverflow.com/questions/11874767/real-time-plotting-in-while-loop-with-matplotlib
+arduino - http://www.instructables.com/id/Plotting-real-time-data-from-Arduino-using-Python-/
