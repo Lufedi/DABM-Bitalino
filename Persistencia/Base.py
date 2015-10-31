@@ -94,3 +94,12 @@ class Agregar():
         dia = Diagnostico(fecha, comentarios, paciente)
         session.add(dia)
         session.commit()
+
+class Consulta(object):
+    def __init__(self):
+        pass
+    def consultarPorPrecioDeCompra(self, id):
+        try:
+            return session.query(Paciente).filter(Paciente.id== id).all()
+        except OperationalError:
+            return 0
