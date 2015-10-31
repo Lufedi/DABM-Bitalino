@@ -50,6 +50,11 @@ class Agregar():
         session.add(senal)
         session.commit()
 
+    def agregarAplicacion(self, idtarjeta):
+        Base.metadata.create_all(engine)
+        app = Aplicacion(idtarjeta)
+        session.add(app)
+        session.commit()
 
 
 
@@ -67,8 +72,19 @@ class Senal(Base):
         self.paciente = paciente
 
 
+class Aplicacion(Base):
+    __tablename__ = 'aplicacion'
+    idtarjeta = Column(String, primary_key=True)
 
+    def __init__(self, idtarjeta):
+        self.idtarjeta = idtarjeta
 
+class Diagnostico(Base):
+    __tablename__ = 'diagnosticos'
+    id = Column(Integer, primary_key= True, autoincrement=True)
+    fecha = Column(Date)
+    comentarios = Column(String)
 
-
-
+    def __init__(self,  fecha, comentarios):
+        self.fecha = fecha
+        self.comentarios = comentarios
