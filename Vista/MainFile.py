@@ -92,10 +92,12 @@ class pacienteWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindowPaciente()
         self.ui.setupUi(self)
         self.ui.buscar.clicked.connect(self.buscaPaciente)
+        self.ui.nombre.setEnable(False)
+        self.ui.ID.setEnable(False)
 
     def buscaPaciente(self):
         try:
-            idP = self.ui.ID.toPlainText()
+            idP = self.ui.busqueda.toPlainText()
             Aplicacion
         except:
             print("Error el paciente no esta en la base de datos")
