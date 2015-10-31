@@ -41,8 +41,7 @@ class MainWindows(QtWidgets.QMainWindow):
         r=True
         try:
             int(idP) ; r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 and year+age== datetime.datetime.now().year
-            int(phone)
-            print(r) ; return r
+            int(phone); return r
         except:
             raise Exception("Datos corruptos")
 
@@ -100,6 +99,3 @@ if __name__=="__main__":
     pp = MainWindows()
     pp.show()
     sys.exit(app.exec_())
-
-print()
-
