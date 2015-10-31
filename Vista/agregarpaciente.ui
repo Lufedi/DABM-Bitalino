@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>517</width>
-    <height>448</height>
+    <height>354</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,26 +46,6 @@
     </property>
     <property name="text">
      <string>Paciente</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>120</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Droid Sans Fallback</family>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Documento</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">

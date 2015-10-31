@@ -3,6 +3,7 @@ from sqlalchemy.sql.base import _from_objects
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Vista.agregarpacienteGUI import Ui_MainWindow
 from Vista.buscarDispositivosGUI import Ui_MainWindow2
+from Vista.senalesPaciente import Ui_MainWindowPaciente
 from Logica.Aplicacion import *
 from Persistencia.Base import *
 from Logica.Adaptador import *
@@ -84,6 +85,21 @@ class TarjetaBitalinoWindow(QtWidgets.QMainWindow):
         self.adaptador.comenzar([0])
         data =  self.adaptador.leer()
         self.ui.plainTextEdit.setPlainText(str(data[4:]))
+
+class pacienteWindow(QtWidgets.QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super(pacienteWindow, self).__init__(*args, **kwargs)
+        self.ui = Ui_MainWindowPaciente()
+        self.ui.setupUi(self)
+        self.ui.buscar.clicked.connect(self.buscaPaciente)
+
+    def buscaPaciente(self):
+        try:
+            idP = self.ui.ID.toPlainText()
+            Aplicacion
+        except:
+            print("Error el paciente no esta en la base de datos")
+
 
 """def v1():
     import sys

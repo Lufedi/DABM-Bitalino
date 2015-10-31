@@ -19,7 +19,7 @@ class Aplicacion():
     def consultarPacientePorId(self, id):
         try:
             c = Consulta()
-            c.consultarPacientePorId(id)
+            c.consultarPacientePorId(id, ti)
         except:
             raise OperationalError
 
