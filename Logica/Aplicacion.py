@@ -16,7 +16,7 @@ class Aplicacion():
     def __init__(self):
         pass
 
-    def consultarPacientePorId(self, id):
+    def consultarPacientePorId(self, id, ti):
         try:
             c = Consulta()
             c.consultarPacientePorId(id, ti)
