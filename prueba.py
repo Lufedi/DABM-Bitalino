@@ -3,14 +3,14 @@ __author__ = 'Pipe'
 import pylab
 from pylab import *
 import queue
-
-xAchse=pylab.arange(0,10000,1)
-yAchse=pylab.array([0]*10000)
+am=1000
+xAchse=pylab.arange(0,am,1)
+yAchse=pylab.array([0]*am)
 
 fig = pylab.figure(1)
 ax = fig.add_subplot(111)
 ax.grid(True)
-ax.set_title("Realtime Waveform Plot")
+ax.set_title("ECG")
 ax.set_xlabel("Time")
 ax.set_ylabel("Amplitude")
 ax.axis([0,1000,-1.5,1.5])
@@ -18,7 +18,7 @@ line1=ax.plot(xAchse,yAchse,'r-')
 manager = pylab.get_current_fig_manager()
 
 values=[]
-values = [0 for x in range(1000)]
+values = [0 for x in range(am)]
 
 
 
@@ -48,8 +48,8 @@ def SinwaveformGenerator(arg):
 
 def RealtimePloter(arg):
   global values
-  CurrentXAxis=pylab.arange(len(values)-1000,len(values),1)
-  line1[0].set_data(CurrentXAxis,pylab.array(values[-1000:]))
+  CurrentXAxis=pylab.arange(len(values)-am,len(values),1)
+  line1[0].set_data(CurrentXAxis,pylab.array(values[-am:]))
   ax.axis([CurrentXAxis.min(),CurrentXAxis.max(),-1.5,1.5])
   manager.canvas.draw()
   #manager.show()
