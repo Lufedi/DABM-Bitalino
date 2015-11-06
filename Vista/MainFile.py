@@ -1,12 +1,15 @@
+from PyQt5.QtWidgets import QMessageBox
 from sqlalchemy.sql.base import _from_objects
+
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Vista.agregarpacienteGUI import Ui_MainWindow
 from Vista.buscarDispositivosGUI import Ui_MainWindow2
 from Vista.senalesPaciente import Ui_MainWindowPaciente
-from Logica.Aplicacion import *
 from Persistencia.Base import *
 from Logica.Adaptador import *
+from Logica.AplicacionBitalino import *
 
 class MainWindows(QtWidgets.QMainWindow):
     tids, gender=["CC", "CE", "TI", "Registro Civil"], ["F", "M", "Otro"]
@@ -37,7 +40,7 @@ class MainWindows(QtWidgets.QMainWindow):
         if(not(self.validaDatos(idP, name, last, age, phone, b.year()))):
             raise Exception("ERROR DATOS CORRUPTOS")
         self.add.agregaPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
-
+        #(AplicacionBitalino()).agregarPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
     def validaDatos(self, idP, name, last, age, phone, year):
         r=True
         try:
@@ -88,20 +91,32 @@ class TarjetaBitalinoWindow(QtWidgets.QMainWindow):
 
 class pacienteWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
+        self.tids=["CC", "CE", "TI", "Registro Civil"]
         super(pacienteWindow, self).__init__(*args, **kwargs)
         self.ui = Ui_MainWindowPaciente()
         self.ui.setupUi(self)
+        self.ui.ti.addItems(self.tids)
         self.ui.buscar.clicked.connect(self.buscaPaciente)
-        self.ui.nombre.setEnable(False)
-        self.ui.ID.setEnable(False)
+        #self.ui.nombre.setEnable(False)
+        #self.ui.ID.setEnable(False)
 
     def buscaPaciente(self):
         try:
+            #Limpiar los campos
+            self.ui.nombre.setText("")
+            self.ui.ID.setText("")
             idP = self.ui.busqueda.toPlainText()
-            Aplicacion
-        except:
-            print("Error el paciente no esta en la base de datos")
-
+            tiP = self.tids[self.ui.ti.currentIndex()]
+            app = AplicacionBitalino()
+            paciente = app.consultarPacientePorId(idP, tiP)
+            print(paciente)
+            if paciente != None:
+                self.ui.nombre.setText(paciente.nombres)
+                self.ui.ID.setText(paciente.id)
+            else:
+                QMessageBox.about(self, "Info", "No se ha encontrado un paciente")
+        except Exception as e:
+            print(e)
 
 """def v1():
     import sys
@@ -111,9 +126,12 @@ class pacienteWindow(QtWidgets.QMainWindow):
     sys.exit(app.exec())
 v1()"""
 
+
 if __name__=="__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    pp = MainWindows()
+    pp = TarjetaBitalinoWindow() #seleccionar tarjeta
+    #pp = MainWindows() #Agregar paciente
+    #pp = pacienteWindow() #seleccionat paciente
     pp.show()
     sys.exit(app.exec_())

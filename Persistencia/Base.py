@@ -42,6 +42,7 @@ class Senal(Base):
     orden =  Column(Integer)
     data =  Column(String)
     paciente_id = Column(String, ForeignKey('paciente.id'))
+    descripcion = Column(String)
 
     def __init__(self, id, orden, data, paciente):
         self.id = id
@@ -100,6 +101,12 @@ class Consulta(object):
         pass
     def consultarPacientePorId(self, id, ti):
         try:
-            return session.query(Paciente).filter(and_(Paciente.id== id), Paciente.ti==ti).all()
+            return session.query(Paciente).filter(and_(Paciente.id == id), Paciente.ti == ti).first()
         except OperationalError:
+            return 0
+
+    def consultarPacientes(self):
+        try:
+            return  session.query(Paciente).filter().all()
+        except:
             return 0

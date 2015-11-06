@@ -12,16 +12,16 @@ from sqlalchemy import Column, Integer, String,Date,DateTime
 import datetime
 from sqlalchemy.sql import table, column, select, update, insert, and_
 
-class Aplicacion():
+class AplicacionBitalino():
     def __init__(self):
         pass
 
     def consultarPacientePorId(self, id, ti):
         try:
-            c = Consulta()
-            c.consultarPacientePorId(id, ti)
+            return (Consulta()).consultarPacientePorId(id, ti)
         except:
             raise OperationalError
 
-if __name__=="__main__":
-    apl=Aplicacion()
+    def agregarPaciente(self,idP, ti, name, last, gender, date, age, phone):
+        add = Agregar()
+        add.agregaPaciente(idP, ti, name, last, gender, date, age, phone)

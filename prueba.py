@@ -3,6 +3,7 @@ __author__ = 'Pipe'
 import pylab
 from pylab import *
 import queue
+import time
 am=1000
 xAchse=pylab.arange(0,am,1)
 yAchse=pylab.array([0]*am)
@@ -13,7 +14,7 @@ ax.grid(True)
 ax.set_title("ECG")
 ax.set_xlabel("Time")
 ax.set_ylabel("Amplitude")
-ax.axis([0,1000,-1.5,1.5])
+ax.axis([0,am,-1.5,1.5])
 line1=ax.plot(xAchse,yAchse,'r-')
 manager = pylab.get_current_fig_manager()
 
@@ -60,5 +61,7 @@ timer2 = fig.canvas.new_timer(interval=1)
 timer2.add_callback(SinwaveformGenerator, ())
 timer.start()
 timer2.start()
-
 pylab.show()
+
+
+
