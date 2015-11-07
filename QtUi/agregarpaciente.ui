@@ -13,15 +13,26 @@
   <property name="windowTitle">
    <string>Agregar paciente</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="send">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>390</y>
+      <x>180</x>
+      <y>400</y>
       <width>141</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(220, 220, 220);</string>
     </property>
     <property name="text">
      <string>Enviar</string>
@@ -72,12 +83,13 @@
      <rect>
       <x>30</x>
       <y>160</y>
-      <width>61</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -91,12 +103,13 @@
      <rect>
       <x>30</x>
       <y>200</y>
-      <width>61</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -108,14 +121,15 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>550</x>
       <y>240</y>
-      <width>41</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -137,7 +151,7 @@
    <widget class="QDateEdit" name="dateEdit">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>190</x>
       <y>240</y>
       <width>191</width>
       <height>27</height>
@@ -149,12 +163,13 @@
      <rect>
       <x>30</x>
       <y>240</y>
-      <width>131</width>
+      <width>151</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -172,18 +187,22 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-color: rgb(0, 0, 0);</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
       <x>30</x>
       <y>280</y>
-      <width>61</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -198,7 +217,7 @@
       <x>440</x>
       <y>240</y>
       <width>101</width>
-      <height>22</height>
+      <height>31</height>
      </rect>
     </property>
    </widget>
@@ -207,12 +226,13 @@
      <rect>
       <x>390</x>
       <y>240</y>
-      <width>31</width>
+      <width>41</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -224,11 +244,20 @@
    <widget class="QPushButton" name="clean">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>390</y>
+      <x>490</x>
+      <y>400</y>
       <width>141</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(226, 226, 226);
+</string>
     </property>
     <property name="text">
      <string>Limpiar</string>
@@ -242,6 +271,9 @@
       <width>441</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-color: rgb(0, 0, 0);</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="name">
