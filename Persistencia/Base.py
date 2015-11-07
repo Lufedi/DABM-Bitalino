@@ -39,10 +39,10 @@ class Paciente(Base):
 class Senal(Base):
     __tablename__ = 'senales'
     id =  Column(Integer, primary_key = True )
-    orden =  Column(Integer)
+    orden =  Column(Integer,primary_key = True)
     data =  Column(String)
-    paciente_id = Column(String, ForeignKey('paciente.id'))
-    descripcion = Column(String)
+    paciente_id = Column(String, ForeignKey('paciente.id'),primary_key = True, nullable=False)
+
 
     def __init__(self, id, orden, data, paciente):
         self.id = id
@@ -78,9 +78,13 @@ class Agregar():
         session.add(paciente)
         session.commit()
 
-    def agregarSenal(self, id, orden , data, paciente):
+    def agregarSenal(self, id, orden , data, pacienteId):
+
         Base.metadata.create_all(engine)
-        senal = Senal(id, orden, data, paciente)
+        #p =  session.query(Paciente).filter(Paciente.id == pacienteId).all()
+        #print (str(p) + ' - ' + str(pacienteId))
+        senal = Senal(id, orden, str(data), pacienteId)
+        senal.paciente_id = pacienteId
         session.add(senal)
         session.commit()
 
@@ -102,11 +106,16 @@ class Consulta(object):
     def consultarPacientePorId(self, id, ti):
         try:
             return session.query(Paciente).filter(and_(Paciente.id == id), Paciente.ti == ti).first()
-        except OperationalError:
-            return 0
+        except :
+            raise OperationalError
 
     def consultarPacientes(self):
         try:
             return  session.query(Paciente).filter().all()
         except:
             return 0
+    def consultarSenal(self, paciente_id, senal_id):
+        try:
+            return session.query(Senal).filter(Senal.paciente_id == paciente_id, Senal.id == senal_id ).order_by(Senal.orden).all()
+        except:
+            raise OperationalError

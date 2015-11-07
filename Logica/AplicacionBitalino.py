@@ -25,3 +25,33 @@ class AplicacionBitalino():
     def agregarPaciente(self,idP, ti, name, last, gender, date, age, phone):
         add = Agregar()
         add.agregaPaciente(idP, ti, name, last, gender, date, age, phone)
+
+
+
+    #devuelve un arreglo con los datos de la senal pedida para el paciente
+    def cargarSenal(self, paciente_id, senal_id):
+        try:
+            return (Consulta()).consultarSenal(paciente_id, senal_id)
+        except:
+            raise OperationalError
+
+    def agregarSenal(self, id, orden , data, paciente):
+        try:
+            add = Agregar()
+            add.agregarSenal(id, orden, data, paciente)
+        except:
+            raise OperationalError
+
+    def consultarSenal(self, paciente_id, senal_id):
+        try:
+            r = []
+            for d in (Consulta()).consultarSenal(paciente_id, senal_id):
+                s = d.data
+                for c in s.strip('[').strip(']').split(','):
+                    r.append(int(c))
+            return r
+        except:
+            raise OperationalError
+
+
+
