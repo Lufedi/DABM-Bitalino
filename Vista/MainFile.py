@@ -97,8 +97,12 @@ class pacienteWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.ti.addItems(self.tids)
         self.ui.buscar.clicked.connect(self.buscaPaciente)
-        #self.ui.nombre.setEnable(False)
-        #self.ui.ID.setEnable(False)
+        self.ui.agregar.clicked.connect(self.agregaPaciente)
+        self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
+        self.ventanaAgregar=MainWindows()
+
+    def agregaPaciente(self):
+        self.ventanaAgregar.show()
 
     def buscaPaciente(self):
         try:
@@ -127,11 +131,20 @@ class pacienteWindow(QtWidgets.QMainWindow):
 v1()"""
 
 
-if __name__=="__main__":
+"""if __name__=="__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     pp = TarjetaBitalinoWindow() #seleccionar tarjeta
     #pp = MainWindows() #Agregar paciente
     #pp = pacienteWindow() #seleccionat paciente
+    pp.show()
+    sys.exit(app.exec_())"""
+
+if __name__=="__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
+    #pp = MainWindows() #Agregar paciente
+    pp = pacienteWindow() #seleccionat paciente
     pp.show()
     sys.exit(app.exec_())
