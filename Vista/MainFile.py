@@ -1,9 +1,8 @@
-from PyQt5.QtWidgets import QMessageBox
+#from PyQt4.QtGui import QMessageBox
 from sqlalchemy.sql.base import _from_objects
 
 
-
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt4 import QtGui
 from Vista.agregarpacienteGUI import Ui_MainWindow
 from Vista.buscarDispositivosGUI import Ui_MainWindow2
 from Vista.senalesPaciente import Ui_MainWindowPaciente
@@ -11,7 +10,7 @@ from Persistencia.Base import *
 from Logica.Adaptador import *
 from Logica.AplicacionBitalino import *
 
-class MainWindows(QtWidgets.QMainWindow):
+class MainWindows(QtGui.QMainWindow):
     tids, gender=["CC", "CE", "TI", "Registro Civil"], ["F", "M", "Otro"]
     month=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     def __init__(self, *args, **kwargs):
@@ -22,7 +21,7 @@ class MainWindows(QtWidgets.QMainWindow):
         self.ui.gender.addItems(self.gender)
         self.ui.send.clicked.connect(self.enviarPaciente)
         self.ui.clean.clicked.connect(self.limpia)
-        self.add=Agregar()
+       # self.add=Agregar()
 
     def enviarPaciente(self):
         idP, ti=self.ui.idp.toPlainText(), self.tids[self.ui.ti.currentIndex()]
@@ -30,6 +29,7 @@ class MainWindows(QtWidgets.QMainWindow):
         gender, b=self.gender[self.ui.gender.currentIndex()], self.ui.dateEdit.date() ; birth=""
         if(b.day()<10):
             birth+="0"+str(b.day())
+
         else:
             birth+=str(b.day())
         if (b.month()<10):
@@ -118,7 +118,7 @@ class pacienteWindow(QtWidgets.QMainWindow):
                 self.ui.nombre.setText(paciente.nombres)
                 self.ui.ID.setText(paciente.id)
             else:
-                QMessageBox.about(self, "Info", "No se ha encontrado un paciente")
+                QtGui.QMessageBox.about(self, "Info", "No se ha encontrado un paciente")
         except Exception as e:
             print(e)
 
