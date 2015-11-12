@@ -3,9 +3,9 @@ from sqlalchemy.sql.base import _from_objects
 
 
 from PyQt4 import QtGui
-from Vista.agregarpacienteGUI import Ui_MainWindow
-from Vista.buscarDispositivosGUI import Ui_MainWindow2
-from Vista.senalesPaciente import Ui_MainWindowPaciente
+from Vista.agregarpacienteGUI import Ui_MainWindow as AgregaPaciente
+from Vista.buscarDispositivosGUI import Ui_MainWindow as Dispositivos
+from Vista.senalesPaciente import Ui_MainWindow as Senales
 from Persistencia.Base import *
 from Logica.Adaptador import *
 from Logica.AplicacionBitalino import *
@@ -15,7 +15,7 @@ class MainWindows(QtGui.QMainWindow):
     month=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     def __init__(self, *args, **kwargs):
         super(MainWindows, self).__init__(*args, **kwargs)
-        self.ui = Ui_MainWindow()
+        self.ui = AgregaPaciente()
         self.ui.setupUi(self)
         self.ui.ti.addItems(self.tids)
         self.ui.gender.addItems(self.gender)
@@ -56,11 +56,11 @@ class MainWindows(QtGui.QMainWindow):
         self.ui.spinBox.clear()
         self.ui.dateEdit.clear()
 
-class TarjetaBitalinoWindow(QtWidgets.QMainWindow):
+class TarjetaBitalinoWindow(QtGui.QMainWindow):
     dispositivos=[]
     def __init__(self, *args, **kwargs):
         super(TarjetaBitalinoWindow, self).__init__(*args, **kwargs)
-        self.ui = Ui_MainWindow2()
+        self.ui = Dispositivos()
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.buscarDispositivos)
         self.ui.conectar.clicked.connect(self.conectar)
@@ -89,11 +89,11 @@ class TarjetaBitalinoWindow(QtWidgets.QMainWindow):
         data =  self.adaptador.leer()
         self.ui.plainTextEdit.setPlainText(str(data[4:]))
 
-class pacienteWindow(QtWidgets.QMainWindow):
+class pacienteWindow(QtGui.QMainWindow):
     def __init__(self, *args, **kwargs):
         self.tids=["CC", "CE", "TI", "Registro Civil"]
         super(pacienteWindow, self).__init__(*args, **kwargs)
-        self.ui = Ui_MainWindowPaciente()
+        self.ui = Senales()
         self.ui.setupUi(self)
         self.ui.ti.addItems(self.tids)
         self.ui.buscar.clicked.connect(self.buscaPaciente)
@@ -142,7 +142,7 @@ v1()"""
 
 if __name__=="__main__":
     import sys
-    app = QtWidgets.QApplication(sys.argv)
+    app = QtGui.QApplication(sys.argv)
     #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
     #pp = MainWindows() #Agregar paciente
     pp = pacienteWindow() #seleccionat paciente

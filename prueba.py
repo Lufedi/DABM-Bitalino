@@ -2,7 +2,7 @@ __author__ = 'Pipe'
 
 import pylab
 from pylab import *
-import queue
+from collections import deque
 import time
 am=1000
 xAchse=pylab.arange(0,am,1)
@@ -37,15 +37,15 @@ values = [0 for x in range(am)]
   T1=Tnext'''
 
 
-q = queue.Queue()
+q = deque([])
 datarray = open("ecgsyn.dat")
 for data in datarray:
-  q.put(data.split(" ")[1])
+  q.append(data.split(" ")[1])
 
 
 def SinwaveformGenerator(arg):
   global values,T1,Konstant,T0,q
-  values.append(q.get())
+  values.append(q.popleft())
 
 def RealtimePloter(arg):
   global values

@@ -7,7 +7,7 @@
 
 *Last Modified on Thur Jun 25 2015*
 """
-
+from PyQt4 import QtGui
 import platform
 import math
 import numpy
