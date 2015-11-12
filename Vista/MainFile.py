@@ -9,6 +9,8 @@ from Vista.senalesPaciente import Ui_MainWindow as Senales
 from Persistencia.Base import *
 from Logica.Adaptador import *
 from Logica.AplicacionBitalino import *
+import time
+from collections import deque
 
 class MainWindows(QtGui.QMainWindow):
     tids, gender=["CC", "CE", "TI", "Registro Civil"], ["F", "M", "Otro"]
@@ -98,11 +100,27 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.ti.addItems(self.tids)
         self.ui.buscar.clicked.connect(self.buscaPaciente)
         self.ui.agregar.clicked.connect(self.agregaPaciente)
+        self.ui.pushButton.clicked.connect(self.detener)
+        self.ui.pushButton_2.clicked.connect(self.graficaSenal)
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
     def agregaPaciente(self):
         self.ventanaAgregar.show()
+
+    def graficaSenal(self):
+        q=self.pruebaCargaSenal()
+        self.ui.graficar(q)
+
+    def detener(self):
+        self.ui.detener()
+
+    def pruebaCargaSenal(self, path="..\ecgsyn.dat"):
+        q = deque([])
+        datarray = open(path)
+        for data in datarray:
+            q.append(data.split(" ")[1])
+        return q
 
     def buscaPaciente(self):
         try:

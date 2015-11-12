@@ -9,6 +9,7 @@
 from PyQt4 import QtCore, QtGui
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import pylab
+import time
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -25,6 +26,10 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_MainWindow(object):
+    am=1000
+    xAchse=pylab.arange(0,am,1)
+    yAchse=pylab.array([0]*am)
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(808, 600)
@@ -89,14 +94,11 @@ class Ui_MainWindow(object):
         self.cajita = QtGui.QWidget(self.centralwidget)
         self.cajita.setGeometry(QtCore.QRect(40, 190, 731, 311))
         self.cajita.setObjectName(_fromUtf8("cajita"))
-        am=1000
-        xAchse=pylab.arange(0,am,1)
-        yAchse=pylab.array([0]*am)
-        fig =pylab.figure(1)
-        ax=fig.add_subplot(111) ; ax.grid(True)
-        ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude") ; ax.axis([0,am,-1.5,1.5])
-        line1=ax.plot(xAchse,yAchse,'r-')
-        self.graficaSenales=FigureCanvas(fig)
+        self.fig =pylab.figure(1)
+        ax=self.fig.add_subplot(111) ; ax.grid(True)
+        ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude") ; ax.axis([0,self.am,-1.5,1.5])
+        line1=ax.plot(self.xAchse,self.yAchse,'r-')
+        self.graficaSenales=FigureCanvas(self.fig)
         self.graficaSenales.setGeometry(QtCore.QRect(40, 190, 731, 321))
         manager = pylab.get_current_fig_manager()
         """self.senales = QtGui.QTextEdit(self.centralwidget)
@@ -123,17 +125,16 @@ class Ui_MainWindow(object):
         self.menuOpciones.addAction(self.actionVer_historial)
         self.menuOpciones.addAction(self.actionDiagn_stico)
         self.menubar.addAction(self.menuOpciones.menuAction())
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.busqueda.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">ID</span></p></body></html>", None))
+                                                        "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                        "p, li { white-space: pre-wrap; }\n"
+                                                        "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                                        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">ID</span></p></body></html>", None))
         self.titulo.setText(_translate("MainWindow", "Paciente", None))
         self.buscar.setText(_translate("MainWindow", "Buscar paciente", None))
         self.agregar.setText(_translate("MainWindow", "Agregar paciente", None))
@@ -145,4 +146,8 @@ class Ui_MainWindow(object):
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
+
+
+
+
 
