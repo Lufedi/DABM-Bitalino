@@ -28,31 +28,30 @@ class MainWindows(QtGui.QMainWindow):
        # self.add=Agregar()
 
     def enviarPaciente(self):
-        idP, ti=self.ui.idp.toPlainText(), self.tids[self.ui.ti.currentIndex()]
-        name, last=self.ui.name.toPlainText(), self.ui.last.toPlainText()
+        self.ui.idp.toPlainText()+""
+        idP, ti=self.ui.idp.toPlainText()+"", self.tids[self.ui.ti.currentIndex()]+""
+        name, last=self.ui.name.toPlainText()+"", self.ui.last.toPlainText()+""
         gender, b=self.gender[self.ui.gender.currentIndex()], self.ui.dateEdit.date() ; birth=""
         if(b.day()<10):
             birth+="0"+str(b.day())
-
         else:
             birth+=str(b.day())
         if (b.month()<10):
             birth+="/"+"0"+str(b.month())
         else:
             birth+="/"+str(b.month())
-        birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=self.ui.spinBox.value(); phone=self.ui.phone.toPlainText()
+        birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=self.ui.spinBox.value(); phone=self.ui.phone.toPlainText()+""
         if(not(self.validaDatos(idP, name, last, age, phone, b.year()))):
             raise Exception("ERROR DATOS CORRUPTOS")
         self.add.agregaPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
-        #(AplicacionBitalino()).agregarPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
+
     def validaDatos(self, idP, name, last, age, phone, year):
-        r=True
         try:
-            int(idP) ; r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 and year+age== datetime.datetime.now().year
-            int(phone); return r
+            r=True
+            int(idP) ; r=len(name)>0 and len(last)>0 and age>=0 and len(phone)>0 and year+age== datetime.datetime.now().year
+            int(phone); print (r) ; return r
         except:
             raise Exception("Datos corruptos")
-
     def limpia(self):
         self.ui.idp.setText("")
         self.ui.name.setText(""), self.ui.last.setText("")
@@ -107,8 +106,6 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
-
-
     def agregaPaciente(self):
         self.ventanaAgregar.show()
 
@@ -119,8 +116,6 @@ class pacienteWindow(QtGui.QMainWindow):
 
     def detener(self):
         self.ui.detener()
-
-
 
     def buscaPaciente(self):
         try:
@@ -162,7 +157,7 @@ if __name__=="__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
-    #pp = MainWindows() #Agregar paciente
-    pp = pacienteWindow() #seleccionat paciente
+    pp = MainWindows() #Agregar paciente
+    #pp = pacienteWindow() #seleccionat paciente
     pp.show()
     sys.exit(app.exec_())
