@@ -25,7 +25,7 @@ class MainWindows(QtGui.QMainWindow):
         self.ui.gender.addItems(self.gender)
         self.ui.send.clicked.connect(self.enviarPaciente)
         self.ui.clean.clicked.connect(self.limpia)
-       # self.add=Agregar()
+        self.add=Agregar()
 
     def enviarPaciente(self):
         self.ui.idp.toPlainText()+""

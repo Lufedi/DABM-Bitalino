@@ -152,6 +152,7 @@ class Ui_MainWindow(object):
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
+
 class Plot(FigureCanvas):
     def __init__(self,parent=None, width=20, height=20, dpi=100):
         #fig = Figure(figsize=(width, height), dpi=dpi )
