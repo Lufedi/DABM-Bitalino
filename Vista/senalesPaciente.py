@@ -10,7 +10,7 @@ from PyQt4 import QtCore, QtGui
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import pylab
 import time
-
+import Queue
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -96,9 +96,15 @@ class Ui_MainWindow(object):
         self.cajita.setObjectName(_fromUtf8("cajita"))
         self.fig =pylab.figure(1)
         ax=self.fig.add_subplot(111) ; ax.grid(True)
-        ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude") ; ax.axis([0,self.am,-1.5,1.5])
+        ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude"); ax.axis([0,self.am,-1.5,1.5])
         line1=ax.plot(self.xAchse,self.yAchse,'r-')
-        self.graficaSenales=FigureCanvas(self.fig)
+
+        dc = Plot(None, width=20, height=20, dpi=100)
+        #l.addWidget(sc)
+        #l.addWidget(dc)
+
+        #self.graficaSenales=FigureCanvas(self.fig)
+        self.graficaSenales = dc
         self.graficaSenales.setGeometry(QtCore.QRect(40, 190, 731, 321))
         manager = pylab.get_current_fig_manager()
         """self.senales = QtGui.QTextEdit(self.centralwidget)
@@ -146,8 +152,89 @@ class Ui_MainWindow(object):
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
+class Plot(FigureCanvas):
+    def __init__(self,parent=None, width=20, height=20, dpi=100):
+        #fig = Figure(figsize=(width, height), dpi=dpi )
+        #self.axes = fig.add_subplot(111)
+        # We want the axes cleared every time plot() is called
+        #self.axes.hold(False)
+
+        #self.compute_initial_figure()
+
+        #
+
+
+
+        self.am=1000
+        self.xAchse=pylab.arange(0,self.am,1)
+        self.yAchse=pylab.array([0]*self.am)
+
+        self.fig = pylab.figure(1)
+        self.ax = self.fig.add_subplot(111)
+        self.ax.grid(True)
+        self.ax.set_title("ECG")
+        self.ax.set_xlabel("Time")
+        self.ax.set_ylabel("Amplitude")
+        self.ax.axis([0,self.am,-1.5,1.5])
+        self.line1=self.ax.plot(self.xAchse,self.yAchse,'r-')
+        self.manager = pylab.get_current_fig_manager()
+
+        self.values=[]
+        self.values = [0 for x in range(self.am)]
+
+        self.q = Queue.Queue()
+
+        #Leer de un archivos los datos de graficacion#
+        datarray = open("..\ecgsyn.dat")
+        for data in datarray:
+            #self.q.append(data.split(" ")[1])
+            self.q.put(data.split(" ")[1])
+        #----------------------------------------#
 
 
 
 
+        FigureCanvas.__init__(self, self.fig)
+        self.setParent(parent)
 
+        FigureCanvas.setSizePolicy(self,
+                                   QtGui.QSizePolicy.Expanding,
+                                   QtGui.QSizePolicy.Expanding)
+        FigureCanvas.updateGeometry(self)
+        timer = QtCore.QTimer(self)
+        timer.timeout.connect(self.update_figure)
+        timer.start(0)
+
+    def SinwaveformGenerator(self):
+      #global values,T1,Konstant,T0,q
+      if(not self.q.empty()):
+        a = self.q.get()
+        #print a
+        self.values.append(a)
+
+    def RealtimePloter(self):
+      #global values
+      CurrentXAxis=pylab.arange(len(self.values)-self.am,len(self.values),1)
+      self.line1[0].set_data(CurrentXAxis,pylab.array(self.values[-self.am:]))
+      self.ax.axis([CurrentXAxis.min(),CurrentXAxis.max(),-1.5,1.5])
+      self.manager.canvas.draw()
+      #manager.show()
+    def compute_initial_figure(self):
+        self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
+
+    def update_figure(self):
+        self.RealtimePloter()
+        self.SinwaveformGenerator()
+        # Build a list of 4 random integers between 0 and 10 (both inclusive)
+        #l = [random.randint(0, 10) for i in range(4)]
+
+        #self.axes.plot([0, 1, 2, 3], l, 'r')
+        self.draw()
+
+    #timer = fig.canvas.new_timer(interval=1)
+    #timer.add_callback(RealtimePloter, ())
+    #timer2 = fig.canvas.new_timer(interval=1)
+    #timer2.add_callback(SinwaveformGenerator, ())
+    #timer.start()
+    #timer2.start()
+    #pylab.show()

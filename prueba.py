@@ -1,8 +1,11 @@
 __author__ = 'Pipe'
 
+
+
+
 import pylab
 from pylab import *
-from collections import deque
+import Queue
 import time
 am=1000
 xAchse=pylab.arange(0,am,1)
@@ -37,7 +40,7 @@ values = [0 for x in range(am)]
   T1=Tnext'''
 
 
-q = deque([])
+q = Queue.Queue()
 datarray = open("ecgsyn.dat")
 for data in datarray:
   q.append(data.split(" ")[1])

@@ -11,6 +11,8 @@ from Logica.Adaptador import *
 from Logica.AplicacionBitalino import *
 import time
 from collections import deque
+import Queue
+import pylab
 
 class MainWindows(QtGui.QMainWindow):
     tids, gender=["CC", "CE", "TI", "Registro Civil"], ["F", "M", "Otro"]
@@ -105,22 +107,20 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
+
+
     def agregaPaciente(self):
         self.ventanaAgregar.show()
 
+
     def graficaSenal(self):
-        q=self.pruebaCargaSenal()
-        self.ui.graficar(q)
+        self.ui.graficar()
+
 
     def detener(self):
         self.ui.detener()
 
-    def pruebaCargaSenal(self, path="..\ecgsyn.dat"):
-        q = deque([])
-        datarray = open(path)
-        for data in datarray:
-            q.append(data.split(" ")[1])
-        return q
+
 
     def buscaPaciente(self):
         try:
