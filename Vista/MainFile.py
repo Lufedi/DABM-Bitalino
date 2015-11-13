@@ -111,7 +111,10 @@ class pacienteWindow(QtGui.QMainWindow):
 
 
     def graficaSenal(self):
-        self.ui.graficar()
+        adaptador = Adaptador()
+        i = adaptador.getInputStream()
+        adaptador.comenzarAGraficar()
+        self.ui.graficar(i)
 
 
     def detener(self):
@@ -157,7 +160,7 @@ if __name__=="__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
-    pp = MainWindows() #Agregar paciente
-    #pp = pacienteWindow() #seleccionat paciente
+    #pp = MainWindows() #Agregar paciente
+    pp = pacienteWindow() #seleccionat paciente
     pp.show()
     sys.exit(app.exec_())

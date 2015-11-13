@@ -152,7 +152,8 @@ class Ui_MainWindow(object):
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
-
+    def graficar(self, stream):
+        self.graficaSenales.graficar(stream)
 class Plot(FigureCanvas):
     def __init__(self,parent=None, width=20, height=20, dpi=100):
         #fig = Figure(figsize=(width, height), dpi=dpi )
@@ -183,13 +184,13 @@ class Plot(FigureCanvas):
         self.values=[]
         self.values = [0 for x in range(self.am)]
 
-        self.q = Queue.Queue()
+        #self.q = Queue.Queue()
 
         #Leer de un archivos los datos de graficacion#
-        datarray = open("..\ecgsyn.dat")
-        for data in datarray:
+        #datarray = open("..\ecgsyn.dat")
+        #for data in datarray:
             #self.q.append(data.split(" ")[1])
-            self.q.put(data.split(" ")[1])
+        #    self.q.put(data.split(" ")[1])
         #----------------------------------------#
 
 
@@ -202,17 +203,17 @@ class Plot(FigureCanvas):
                                    QtGui.QSizePolicy.Expanding,
                                    QtGui.QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
-        timer = QtCore.QTimer(self)
-        timer.timeout.connect(self.update_figure)
-        timer.start(0)
+
 
     def SinwaveformGenerator(self):
       #global values,T1,Konstant,T0,q
+
       if(not self.q.empty()):
         a = self.q.get()
         #print a
         self.values.append(a)
-
+      else:
+          print "is empty"
     def RealtimePloter(self):
       #global values
       CurrentXAxis=pylab.arange(len(self.values)-self.am,len(self.values),1)
@@ -222,6 +223,14 @@ class Plot(FigureCanvas):
       #manager.show()
     def compute_initial_figure(self):
         self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
+    def graficar(self, stream):
+        print "graficando"
+        self.q = stream
+        self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.update_figure)
+        self.timer.start(0)
+    def detener(self):
+        self.timer.stop()
 
     def update_figure(self):
         self.RealtimePloter()

@@ -2,13 +2,16 @@ from Logica import bitalino
 
 
 from Logica import *
-class Adaptador(object):
+import Queue
+import threading
+class Reader(threading.Thread):
 
-    def __init__(self):
-        self.N = 25
+    def __init__(self, stream):
+        threading.Thread.__init__(self)
+        self.N = 100
         self.SampligRate = 1000
         self.device = None
-
+        self.stream = stream
     #Retorna una lista de los dispositivos que encuentra por bluetooth
     def encontrarDispositivos(self):
         dispositivos =  bitalino.find()
@@ -34,20 +37,74 @@ class Adaptador(object):
         return self.device.read(self.N)
 
 
+
+    def run(self):
+        print "Soy el hilo"
+
+        #print (a.encontrarDispositivos())
+        self.conectarseADispositivo("98:D3:31:B2:12:18")
+        self.comenzar([0])
+        res = [0]
+        cont =30
+        import time
+        while ( cont > 0):
+            print "leyendo"
+            data=self.leer()
+            cont-= 1
+
+            for x in data[:,5]:
+                print(x)
+                print("----")
+                print((x-500)/333)
+                self.stream.put((x-500)/333)
+            print("dos")
+            #res.append(array(data[:,5]))
+            time.sleep(2)
+            print("termino de leer linea")
+        print self.stream
+        self.terminar()
+
+
+import threading
+
+class Adaptador(object):
+    def __init__(self):
+        self.input = Queue.Queue()
+    def comenzarAGraficar(self):
+        hilo = Reader(self.getInputStream())
+        hilo.start()
+
+    def getInputStream(self):
+        return self.input
+    def paraDeGraficar(self):
+        pass
+
 def testadaptador():
-    a = Adaptador()
-    #print (a.encontrarDispositivos())
+
+    q = Queue.Queue()
+    #datarray = open("..\ecgsyn.dat")
+    #for data in datarray:
+    #self.q.append(data.split(" ")[1])
+    #    q.put(data.split(" ")[1])
+    a = Reader(q)
     a.conectarseADispositivo("98:D3:31:B2:12:18")
     a.comenzar([0])
-    res =[]
-    cont =20
+    res = [0]
+    cont =5
     import time
-    while ( cont != 0):
+    '''while ( cont > 0):
+        print "leyendo"
         data=a.leer()
         cont-= 1
-        res.append(data[:,5])
-        time.sleep(1000)
+        for x in data[:,5]:
+            res.append( x)
+        print("dos")
+        #res.append(array(data[:,5]))
+        time.sleep(2)
         print("termino de leer linea")
+    '''
+    data = a.leer()
+    res = data[:,5]
 
 
     #SeqN = data[0,:]
@@ -61,7 +118,8 @@ def testadaptador():
     #    print d
     #print"donde"
     #EMG = data[:,5]
-    print res
+
+
 
     #print SeqN
     #print D0
@@ -78,3 +136,4 @@ def testadaptador():
     pylab.show()
 
     a.terminar()
+#testadaptador()
