@@ -16,15 +16,17 @@ class AplicacionBitalino():
     def __init__(self):
         pass
 
+    #@staticmethod
     def consultarPacientePorId(self, id, ti):
         try:
-            return (Consulta()).consultarPacientePorId(id, ti)
+                return (Consulta()).consultarPacientePorId(id, ti)
         except:
             raise OperationalError
 
-    def agregarPaciente(self,idP, ti, name, last, gender, date, age, phone):
-        add = Agregar()
-        add.agregaPaciente(idP, ti, name, last, gender, date, age, phone)
+    @classmethod
+    def agregarPaciente(self, idP, ti, name, last, gender, date, age, phone):
+
+        Agregar.agregaPaciente(idP, ti, name, last, gender, date, age, phone)
 
 
 

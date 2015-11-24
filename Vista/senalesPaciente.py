@@ -11,6 +11,8 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import pylab
 import time
 import Queue
+from Logica.AplicacionBitalino import AplicacionBitalino
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -153,6 +155,7 @@ class Ui_MainWindow(object):
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
     def graficar(self, stream):
+        #TODO Agregar parametros para guardar las senales correspondientes al paciente
         self.graficaSenales.graficar(stream)
 class Plot(FigureCanvas):
     def __init__(self,parent=None, width=20, height=20, dpi=100):
@@ -181,8 +184,17 @@ class Plot(FigureCanvas):
         self.line1=self.ax.plot(self.xAchse,self.yAchse,'r-')
         self.manager = pylab.get_current_fig_manager()
 
+
+
         self.values=[]
         self.values = [0 for x in range(self.am)]
+
+        self.segmento_senal = []
+        self.longirud_segmento = 200
+        self.id_senal = None
+        self.orden_senal = None
+        self.paciente_id = None
+
 
         #self.q = Queue.Queue()
 
@@ -210,8 +222,17 @@ class Plot(FigureCanvas):
 
       if(not self.q.empty()):
         a = self.q.get()
-        #print a
+        #agregando el dato al arreglo para guardar en la base de datos
+        self.segmento_senal.append(a)
         self.values.append(a)
+        #verificar si hay que guardar el segmento de la senal
+        if(len(self.segmento_senal) == self.longirud_segmento):
+            #guardar la senal
+            AplicacionBitalino.agregarSenal(self.id_senal, self.orden_senal, self.segmento_senal, self.paciente_id)
+            self.segmento_senal = []
+
+        #agregando el dato al arreglo para graficar
+
       else:
           print "is empty"
     def RealtimePloter(self):

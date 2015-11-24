@@ -8,7 +8,7 @@ from sqlalchemy import Column, Integer, String,Date,DateTime
 import datetime
 from sqlalchemy.sql import table, column, select, update, insert, and_
 
-engine = create_engine('sqlite:///BaseDeDatos.db', echo=True)
+engine = create_engine('sqlite:///../Persistencia/BaseDeDatos.db', echo=True)
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -72,6 +72,7 @@ class Diagnostico(Base):
 
 
 class Agregar():
+    @classmethod
     def agregaPaciente(self, idP, ti, name, lastname, gen, birth,phone, age):
         Base.metadata.create_all(engine)
         paciente=Paciente(idP, ti, name, lastname, gen, birth,phone, age)

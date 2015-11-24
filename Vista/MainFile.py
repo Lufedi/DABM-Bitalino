@@ -8,7 +8,7 @@ from Vista.buscarDispositivosGUI import Ui_MainWindow as Dispositivos
 from Vista.senalesPaciente import Ui_MainWindow as Senales
 from Persistencia.Base import *
 from Logica.Adaptador import *
-from Logica.AplicacionBitalino import *
+from Logica.AplicacionBitalino import AplicacionBitalino
 import time
 from collections import deque
 import Queue
@@ -25,12 +25,14 @@ class MainWindows(QtGui.QMainWindow):
         self.ui.gender.addItems(self.gender)
         self.ui.send.clicked.connect(self.enviarPaciente)
         self.ui.clean.clicked.connect(self.limpia)
-        self.add=Agregar()
+        self.add=AplicacionBitalino()
+
 
     def enviarPaciente(self):
-        self.ui.idp.toPlainText()+""
-        idP, ti=self.ui.idp.toPlainText()+"", self.tids[self.ui.ti.currentIndex()]+""
-        name, last=self.ui.name.toPlainText()+"", self.ui.last.toPlainText()+""
+        idP = str(self.ui.idp.toPlainText())
+        ti = self.tids[self.ui.ti.currentIndex()]
+        #idP, ti=self.ui.idp.toPlainText()+"", self.tids[self.ui.ti.currentIndex()]+""
+        name, last=str(self.ui.name.toPlainText()), str(self.ui.last.toPlainText())
         gender, b=self.gender[self.ui.gender.currentIndex()], self.ui.dateEdit.date() ; birth=""
         if(b.day()<10):
             birth+="0"+str(b.day())
@@ -40,18 +42,23 @@ class MainWindows(QtGui.QMainWindow):
             birth+="/"+"0"+str(b.month())
         else:
             birth+="/"+str(b.month())
-        birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=self.ui.spinBox.value(); phone=self.ui.phone.toPlainText()+""
-        if(not(self.validaDatos(idP, name, last, age, phone, b.year()))):
-            raise Exception("ERROR DATOS CORRUPTOS")
-        self.add.agregaPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
+        birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=str(self.ui.spinBox.value()); phone=str(self.ui.phone.toPlainText())
 
-    def validaDatos(self, idP, name, last, age, phone, year):
-        try:
-            r=True
-            int(idP) ; r=len(name)>0 and len(last)>0 and age>=0 and len(phone)>0 and year+age== datetime.datetime.now().year
-            int(phone); print (r) ; return r
-        except:
-            raise Exception("Datos corruptos")
+        """ print("birth  : " + birth)
+        print( " ti " + ti )
+        print(" name " + name)
+        print(" gener " + gender )
+        print(" date " + datetime.datetime.strptime(birth, "%d/%m/%y").date().__str__() )
+        print(" age " + str(age) )
+        print("phone " + phone )
+        """
+        print("idp " + idP, type(idP))
+        AplicacionBitalino.agregarPaciente(idP,ti, name,  last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
+
+        #birth = "10/06/94"
+        #self.add.agregaPaciente(idP, "CC" , "luis" , "felipe" , "M" , datetime.datetime.strptime(birth, "%d/%m/%y").date(), "300210593", 21)   def validaDatos(self, idP, name, last, age, phone, year):
+
+
     def limpia(self):
         self.ui.idp.setText("")
         self.ui.name.setText(""), self.ui.last.setText("")

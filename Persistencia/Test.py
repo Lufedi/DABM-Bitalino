@@ -13,4 +13,6 @@ def agregaPaciente( idP, ti, name, lastname, gen, birth,phone, age):
     session.add(paciente)
     session.commit()
 import datetime
-agregaPaciente("1020793766" , "CC" , "luis" , "felipe" , "M" , datetime.datetime.now(), "300210593", 21)
+birth = "10/06/94"
+
+agregaPaciente("1020793768" , "CC" , "luis" , "felipe" , "M" , datetime.datetime.strptime(birth, "%d/%m/%y").date(), "300210593", 21)

@@ -50,13 +50,11 @@ class Reader(threading.Thread):
         while ( cont > 0):
             print "leyendo"
             data=self.leer()
-            cont-= 1
+            cont -= 1
 
             for x in data[:,5]:
                 print(x)
-                print("----")
-                print((x-500)/333)
-                self.stream.put((x-500)/333)
+                self.stream.put(x)
             print("dos")
             #res.append(array(data[:,5]))
             time.sleep(2)
