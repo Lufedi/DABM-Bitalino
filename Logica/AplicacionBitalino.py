@@ -38,24 +38,28 @@ class AplicacionBitalino():
         except:
             raise OperationalError
     @classmethod
-    def agregarSenal(self,  orden , data, paciente):
+    def agregarSenal(self,id,   orden , data, paciente):
         try:
             print str(orden) +  " " + paciente
-            Agregar.agregarSenal( orden, data, paciente)
+            Agregar.agregarSenal(id,  orden, data, paciente)
         except :
             raise OperationalError
     @classmethod
     def consultarSenal(self, paciente_id, senal_id):
-        try:
-            r = []
-            for d in (Consulta()).consultarSenal(paciente_id, senal_id):
-                s = d.data
-                for c in s.strip('[').strip(']').split(','):
-                    r.append(int(c))
-            return r
-        except:
-            raise OperationalError
+
+        r = []
+        for d in Consulta.consultarSenal(paciente_id, senal_id):
+            s = d.data
+            for c in s.strip('[').strip(']').split(','):
+                c = c.strip().strip("'")
+                r.append(float(c))
+        return r
+
 
     @classmethod
     def consultarMaxIdSenal(self):
         return Consulta.consularIdUltimaSenal()
+
+    @classmethod
+    def consularSenalesDelPaciente(self, paciente_id):
+        return Consulta.consularSenalesDelPaciente(paciente_id)

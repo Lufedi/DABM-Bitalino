@@ -110,13 +110,20 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.agregar.clicked.connect(self.agregaPaciente)
         self.ui.pushButton.clicked.connect(self.detener)
         self.ui.pushButton_2.clicked.connect(self.graficaSenal)
-        self.ui.pushButton.setDisabled(True);
-        self.ui.pushButton_2.setDisabled(True);
+        self.ui.nueva_medicion.clicked.connect(self.nuevaMedicion)
+        self.ui.pushButton.setDisabled(True)
+        self.ui.pushButton_2.setDisabled(True)
+        self.ui.nueva_medicion.setDisabled(True)
+        self.ui.finalizar_medicion.setDisabled(True)
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
     def agregaPaciente(self):
         self.ventanaAgregar.show()
+
+    def nuevaMedicion(self):
+        self.ui.graficaSenales.orden_senal = 0
+        self.ui.pushButton_2.setEnabled(True)
 
 
     def graficaSenal(self):
@@ -146,8 +153,8 @@ class pacienteWindow(QtGui.QMainWindow):
             if paciente != None:
                 self.ui.nombre.setText(paciente.nombres)
                 self.ui.ID.setText(paciente.id)
-                self.ui.pushButton_2.setEnabled(True)
                 self.ui.graficaSenales.set_paciente(paciente)
+                self.ui.nueva_medicion.setEnabled(True)
             else:
                 QtGui.QMessageBox.about(self, "Info", "No se ha encontrado un paciente")
         except Exception as e:

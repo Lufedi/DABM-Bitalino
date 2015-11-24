@@ -84,7 +84,7 @@ class Agregar():
         session.add(paciente)
         session.commit()
     @classmethod
-    def agregarSenal(self,  orden , data, pacienteId):
+    def agregarSenal(self, id,  orden , data, pacienteId):
 
         Base.metadata.create_all(engine)
         #p =  session.query(Paciente).filter(Paciente.id == pacienteId).all()
@@ -98,7 +98,7 @@ class Agregar():
         print "pacienteId"
         print pacienteId
 
-        senal = Senal( Consulta.consularIdUltimaSenal() + 1,  orden, str(data), pacienteId)
+        senal = Senal(id,  orden, str(data), pacienteId)
         senal.paciente_id = pacienteId
         session.add(senal)
         session.commit()
@@ -132,15 +132,21 @@ class Consulta(object):
         except :
             raise OperationalError
 
+    @classmethod
     def consultarPacientes(self):
         try:
             return  session.query(Paciente).filter().all()
         except:
             return 0
 
-
+    @classmethod
     def consultarSenal(self, paciente_id, senal_id):
+
+        return session.query(Senal).filter(Senal.paciente_id == paciente_id, Senal.id == senal_id ).order_by(Senal.orden).all()
+
+    @classmethod
+    def consularSenalesDelPaciente(self, paciente_id):
         try:
-            return session.query(Senal).filter(Senal.paciente_id == paciente_id, Senal.id == senal_id ).order_by(Senal.orden).all()
+            return session.query(Senal).filter(Senal.paciente_id == paciente_id).group_by(Senal.id).all()
         except:
             raise OperationalError

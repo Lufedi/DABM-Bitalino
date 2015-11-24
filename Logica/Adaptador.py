@@ -54,6 +54,7 @@ class Reader(threading.Thread):
 
             for x in data[:,5]:
                 print(x)
+                x -= 500
                 self.stream.put(x)
             print("dos")
             #res.append(array(data[:,5]))
@@ -69,11 +70,12 @@ class Adaptador(object):
     def __init__(self):
         self.input = Queue.Queue()
     def comenzarAGraficar(self):
+
+
+
         #obtener los datos de la tarjeta
         #hilo = Reader(self.getInputStream())
         #hilo.start()
-
-
 
         #obtener los datos de un archivo de prueba
         self.leerDatosDeArchivo(self.getInputStream())

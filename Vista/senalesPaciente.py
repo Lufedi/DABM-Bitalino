@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.ID.setGeometry(QtCore.QRect(550, 140, 221, 31))
         self.ID.setObjectName(_fromUtf8("ID"))
         self.horizontalLayoutWidget = QtGui.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(40, 570, 731, 41))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(200, 560, 571, 51))
         self.horizontalLayoutWidget.setObjectName(_fromUtf8("horizontalLayoutWidget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
@@ -99,7 +99,7 @@ class Ui_MainWindow(object):
 
         self.fig =pylab.figure(1)
         ax=self.fig.add_subplot(111) ; ax.grid(True)
-        ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude"); ax.axis([0,self.am,-1.5,1.5])
+        ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude"); ax.axis([0,self.am,-500,500])
         line1=ax.plot(self.xAchse,self.yAchse,'r-')
         dc = Plot(None, width=20, height=20, dpi=100)
         self.graficaSenales = dc
@@ -110,8 +110,9 @@ class Ui_MainWindow(object):
         self.layout.setObjectName(_fromUtf8("graficador"))
         self.layout.addWidget(self.graficaSenales)
 
+
         self.horizontalLayoutWidget_2 = QtGui.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(40, 520, 731, 41))
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(200, 520, 571, 41))
         self.horizontalLayoutWidget_2.setObjectName(_fromUtf8("horizontalLayoutWidget_2"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout(self.horizontalLayoutWidget_2)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
@@ -121,6 +122,21 @@ class Ui_MainWindow(object):
         self.finalizar_medicion = QtGui.QPushButton(self.horizontalLayoutWidget_2)
         self.finalizar_medicion.setObjectName(_fromUtf8("finalizar_medicion"))
         self.horizontalLayout_2.addWidget(self.finalizar_medicion)
+        self.comboBox = QtGui.QComboBox(self.centralwidget)
+        self.comboBox.setGeometry(QtCore.QRect(60, 570, 111, 21))
+        self.comboBox.setObjectName(_fromUtf8("comboBox"))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.comboBox.addItem(_fromUtf8(""))
+        self.Nombre_2 = QtGui.QLabel(self.centralwidget)
+        self.Nombre_2.setGeometry(QtCore.QRect(60, 530, 81, 31))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.Nombre_2.setFont(font)
+        self.Nombre_2.setObjectName(_fromUtf8("Nombre_2"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 822, 21))
@@ -159,9 +175,16 @@ class Ui_MainWindow(object):
         self.TI.setText(_translate("MainWindow", "TI", None))
         self.nueva_medicion.setText(_translate("MainWindow", "Nueva Medicion", None))
         self.finalizar_medicion.setText(_translate("MainWindow", "Finaliza Medicion", None))
+        self.comboBox.setItemText(0, _translate("MainWindow", "ECG", None))
+        self.comboBox.setItemText(1, _translate("MainWindow", "EMG", None))
+        self.comboBox.setItemText(2, _translate("MainWindow", "EDA", None))
+        self.comboBox.setItemText(3, _translate("MainWindow", "ACG", None))
+        self.comboBox.setItemText(4, _translate("MainWindow", "LUX", None))
+        self.Nombre_2.setText(_translate("MainWindow", "Señal : ", None))
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
+
     def graficar(self, stream):
         #TODO Agregar parametros para guardar las senales correspondientes al paciente
         self.graficaSenales.graficar(stream)
@@ -188,7 +211,7 @@ class Plot(FigureCanvas):
         self.ax.set_title("ECG")
         self.ax.set_xlabel("Time")
         self.ax.set_ylabel("Amplitude")
-        self.ax.axis([0,self.am,-1.5,1.5])
+        self.ax.axis([0,self.am,-500,500])
         self.line1=self.ax.plot(self.xAchse,self.yAchse,'r-')
         self.manager = pylab.get_current_fig_manager()
 
@@ -203,6 +226,7 @@ class Plot(FigureCanvas):
         self.longitud_segmento = 200
         self.id_senal = None
         self.orden_senal = None
+        self.senal_id = None
 
 
         #self.q = Queue.Queue()
@@ -238,7 +262,7 @@ class Plot(FigureCanvas):
         #verificar si hay que guardar el segmento de la senal
         if(len(self.segmento_senal) == self.longitud_segmento):
             #guardar la senal
-            AplicacionBitalino.agregarSenal( self.orden_senal, self.segmento_senal, self.paciente.id)
+            AplicacionBitalino.agregarSenal( self.senal_id, self.orden_senal, self.segmento_senal, self.paciente.id)
             self.orden_senal+=1
             self.segmento_senal = []
         #agregando el dato al arreglo para graficar
@@ -249,13 +273,14 @@ class Plot(FigureCanvas):
       #global values
       CurrentXAxis=pylab.arange(len(self.values)-self.am,len(self.values),1)
       self.line1[0].set_data(CurrentXAxis,pylab.array(self.values[-self.am:]))
-      self.ax.axis([CurrentXAxis.min(),CurrentXAxis.max(),-1.5,1.5])
+      self.ax.axis([CurrentXAxis.min(),CurrentXAxis.max(),-500,500])
       self.manager.canvas.draw()
       #manager.show()
     def compute_initial_figure(self):
         self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
     def graficar(self, stream):
         print "graficando"
+        self.senal_id  = AplicacionBitalino.consultarMaxIdSenal() + 1
         self.q = stream
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_figure)
