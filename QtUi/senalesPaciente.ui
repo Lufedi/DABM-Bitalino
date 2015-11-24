@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>808</width>
-    <height>600</height>
+    <width>822</width>
+    <height>664</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -137,7 +137,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>510</y>
+      <y>570</y>
       <width>731</width>
       <height>41</height>
      </rect>
@@ -197,6 +197,33 @@ p, li { white-space: pre-wrap; }
       <height>311</height>
      </rect>
     </property>
+    <zorder>horizontalLayoutWidget_2</zorder>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>520</y>
+      <width>731</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="nueva_medicion">
+       <property name="text">
+        <string>Nueva Medicion</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="finalizar_medicion">
+       <property name="text">
+        <string>Finaliza Medicion</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -204,7 +231,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>808</width>
+     <width>822</width>
      <height>21</height>
     </rect>
    </property>

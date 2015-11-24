@@ -69,8 +69,19 @@ class Adaptador(object):
     def __init__(self):
         self.input = Queue.Queue()
     def comenzarAGraficar(self):
-        hilo = Reader(self.getInputStream())
-        hilo.start()
+        #obtener los datos de la tarjeta
+        #hilo = Reader(self.getInputStream())
+        #hilo.start()
+
+
+
+        #obtener los datos de un archivo de prueba
+        self.leerDatosDeArchivo(self.getInputStream())
+
+    def leerDatosDeArchivo(self, stream):
+        datarray = open("..\ecgsyn.dat")
+        for data in datarray:
+            stream.put(data.split(" ")[1])
 
     def getInputStream(self):
         return self.input

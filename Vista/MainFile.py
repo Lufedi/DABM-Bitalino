@@ -110,6 +110,8 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.agregar.clicked.connect(self.agregaPaciente)
         self.ui.pushButton.clicked.connect(self.detener)
         self.ui.pushButton_2.clicked.connect(self.graficaSenal)
+        self.ui.pushButton.setDisabled(True);
+        self.ui.pushButton_2.setDisabled(True);
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
@@ -121,25 +123,31 @@ class pacienteWindow(QtGui.QMainWindow):
         adaptador = Adaptador()
         i = adaptador.getInputStream()
         adaptador.comenzarAGraficar()
+        self.ui.pushButton_2.setEnabled(False)
+        self.ui.pushButton.setEnabled(True)
         self.ui.graficar(i)
 
 
     def detener(self):
+        self.ui.pushButton.setEnabled(False)
+        self.ui.pushButton_2.setEnabled(True)
         self.ui.detener()
 
+    #TODO crear un controlador que desacople la logica de la vista
     def buscaPaciente(self):
         try:
             #Limpiar los campos
             self.ui.nombre.setText("")
             self.ui.ID.setText("")
-            idP = self.ui.busqueda.toPlainText()
+            idP = str(self.ui.busqueda.toPlainText())
             tiP = self.tids[self.ui.ti.currentIndex()]
-            app = AplicacionBitalino()
-            paciente = app.consultarPacientePorId(idP, tiP)
+            paciente = AplicacionBitalino.consultarPacientePorId(idP, tiP)
             print(paciente)
             if paciente != None:
                 self.ui.nombre.setText(paciente.nombres)
                 self.ui.ID.setText(paciente.id)
+                self.ui.pushButton_2.setEnabled(True)
+                self.ui.graficaSenales.set_paciente(paciente)
             else:
                 QtGui.QMessageBox.about(self, "Info", "No se ha encontrado un paciente")
         except Exception as e:

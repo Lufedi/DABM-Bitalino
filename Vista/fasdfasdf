@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.ID.setGeometry(QtCore.QRect(550, 140, 221, 31))
         self.ID.setObjectName(_fromUtf8("ID"))
         self.horizontalLayoutWidget = QtGui.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(40, 570, 731, 41))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(40, 510, 731, 41))
         self.horizontalLayoutWidget.setObjectName(_fromUtf8("horizontalLayoutWidget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
@@ -97,6 +97,8 @@ class Ui_MainWindow(object):
         self.cajita.setGeometry(QtCore.QRect(40, 190, 731, 311))
         self.cajita.setObjectName(_fromUtf8("cajita"))
 
+
+
         self.fig =pylab.figure(1)
         ax=self.fig.add_subplot(111) ; ax.grid(True)
         ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude"); ax.axis([0,self.am,-1.5,1.5])
@@ -105,25 +107,18 @@ class Ui_MainWindow(object):
         self.graficaSenales = dc
         self.graficaSenales.setGeometry(QtCore.QRect(40, 190, 731, 321))
         manager = pylab.get_current_fig_manager()
+
+
+        """self.senales = QtGui.QTextEdit(self.centralwidget)
+        self.senales.setGeometry(QtCore.QRect(40, 190, 731, 321))
+        self.senales.setObjectName(_fromUtf8("senales"))"""
         self.layout=QtGui.QVBoxLayout(self.cajita)
         self.layout.setGeometry(QtCore.QRect(40, 190, 731, 321))
         self.layout.setObjectName(_fromUtf8("graficador"))
         self.layout.addWidget(self.graficaSenales)
-
-        self.horizontalLayoutWidget_2 = QtGui.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(40, 520, 731, 41))
-        self.horizontalLayoutWidget_2.setObjectName(_fromUtf8("horizontalLayoutWidget_2"))
-        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.horizontalLayoutWidget_2)
-        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.nueva_medicion = QtGui.QPushButton(self.horizontalLayoutWidget_2)
-        self.nueva_medicion.setObjectName(_fromUtf8("nueva_medicion"))
-        self.horizontalLayout_2.addWidget(self.nueva_medicion)
-        self.finalizar_medicion = QtGui.QPushButton(self.horizontalLayoutWidget_2)
-        self.finalizar_medicion.setObjectName(_fromUtf8("finalizar_medicion"))
-        self.horizontalLayout_2.addWidget(self.finalizar_medicion)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 822, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 808, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuOpciones = QtGui.QMenu(self.menubar)
         self.menuOpciones.setObjectName(_fromUtf8("menuOpciones"))
@@ -138,17 +133,16 @@ class Ui_MainWindow(object):
         self.menuOpciones.addAction(self.actionVer_historial)
         self.menuOpciones.addAction(self.actionDiagn_stico)
         self.menubar.addAction(self.menuOpciones.menuAction())
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.busqueda.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">ID</span></p></body></html>", None))
+                                                        "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                        "p, li { white-space: pre-wrap; }\n"
+                                                        "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                                        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">ID</span></p></body></html>", None))
         self.titulo.setText(_translate("MainWindow", "Paciente", None))
         self.buscar.setText(_translate("MainWindow", "Buscar paciente", None))
         self.agregar.setText(_translate("MainWindow", "Agregar paciente", None))
@@ -157,11 +151,9 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Graficar", None))
         self.pushButton.setText(_translate("MainWindow", "Detenerse", None))
         self.TI.setText(_translate("MainWindow", "TI", None))
-        self.nueva_medicion.setText(_translate("MainWindow", "Nueva Medicion", None))
-        self.finalizar_medicion.setText(_translate("MainWindow", "Finaliza Medicion", None))
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
-        self.actionDiagn_stico.setText(_translate("MainWindow", "DiagnÃ³stico", None))
+        self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
     def graficar(self, stream):
         #TODO Agregar parametros para guardar las senales correspondientes al paciente
         self.graficaSenales.graficar(stream)

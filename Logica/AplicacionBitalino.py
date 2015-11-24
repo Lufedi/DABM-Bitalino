@@ -16,7 +16,7 @@ class AplicacionBitalino():
     def __init__(self):
         pass
 
-    #@staticmethod
+    @classmethod
     def consultarPacientePorId(self, id, ti):
         try:
                 return (Consulta()).consultarPacientePorId(id, ti)
@@ -31,19 +31,20 @@ class AplicacionBitalino():
 
 
     #devuelve un arreglo con los datos de la senal pedida para el paciente
+    @classmethod
     def cargarSenal(self, paciente_id, senal_id):
         try:
             return (Consulta()).consultarSenal(paciente_id, senal_id)
         except:
             raise OperationalError
-
-    def agregarSenal(self, id, orden , data, paciente):
+    @classmethod
+    def agregarSenal(self,  orden , data, paciente):
         try:
-            add = Agregar()
-            add.agregarSenal(id, orden, data, paciente)
-        except:
+            print str(orden) +  " " + paciente
+            Agregar.agregarSenal( orden, data, paciente)
+        except :
             raise OperationalError
-
+    @classmethod
     def consultarSenal(self, paciente_id, senal_id):
         try:
             r = []
@@ -55,5 +56,6 @@ class AplicacionBitalino():
         except:
             raise OperationalError
 
-
-
+    @classmethod
+    def consultarMaxIdSenal(self):
+        return Consulta.consularIdUltimaSenal()

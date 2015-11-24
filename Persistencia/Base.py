@@ -7,6 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,Date,DateTime
 import datetime
 from sqlalchemy.sql import table, column, select, update, insert, and_
+from sqlalchemy import func
+
 
 engine = create_engine('sqlite:///../Persistencia/BaseDeDatos.db', echo=True)
 Base = declarative_base()
@@ -72,29 +74,42 @@ class Diagnostico(Base):
 
 
 class Agregar():
+
+    def __init__(self):
+        pass
     @classmethod
     def agregaPaciente(self, idP, ti, name, lastname, gen, birth,phone, age):
         Base.metadata.create_all(engine)
         paciente=Paciente(idP, ti, name, lastname, gen, birth,phone, age)
         session.add(paciente)
         session.commit()
-
-    def agregarSenal(self, id, orden , data, pacienteId):
+    @classmethod
+    def agregarSenal(self,  orden , data, pacienteId):
 
         Base.metadata.create_all(engine)
         #p =  session.query(Paciente).filter(Paciente.id == pacienteId).all()
         #print (str(p) + ' - ' + str(pacienteId))
-        senal = Senal(id, orden, str(data), pacienteId)
+        print "id"
+        print id
+        print "orden"
+        print orden
+        print "data"
+        print data
+        print "pacienteId"
+        print pacienteId
+
+        senal = Senal( Consulta.consularIdUltimaSenal() + 1,  orden, str(data), pacienteId)
         senal.paciente_id = pacienteId
         session.add(senal)
         session.commit()
 
+    @classmethod
     def agregarAplicacion(self, idtarjeta):
         Base.metadata.create_all(engine)
         app = Aplicacion(idtarjeta)
         session.add(app)
         session.commit()
-
+    @classmethod
     def agregarDiagostico(self, fecha, comentarios, paciente):
         Base.metadata.create_all(engine)
         dia = Diagnostico(fecha, comentarios, paciente)
@@ -104,6 +119,13 @@ class Agregar():
 class Consulta(object):
     def __init__(self):
         pass
+    @classmethod
+    def consularIdUltimaSenal(self):
+        res =  session.query(func.max(Senal.id)).first()[0]
+        if res == None:
+            res = 0
+        return res
+    @classmethod
     def consultarPacientePorId(self, id, ti):
         try:
             return session.query(Paciente).filter(and_(Paciente.id == id), Paciente.ti == ti).first()
@@ -115,6 +137,8 @@ class Consulta(object):
             return  session.query(Paciente).filter().all()
         except:
             return 0
+
+
     def consultarSenal(self, paciente_id, senal_id):
         try:
             return session.query(Senal).filter(Senal.paciente_id == paciente_id, Senal.id == senal_id ).order_by(Senal.orden).all()
