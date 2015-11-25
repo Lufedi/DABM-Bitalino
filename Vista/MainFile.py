@@ -113,6 +113,7 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.pushButton_2.clicked.connect(self.graficaSenal)
         self.ui.nueva_medicion.clicked.connect(self.nuevaMedicion)
         self.ui.finalizar_medicion.clicked.connect(self.terminarMedicion)
+        
         self.ui.pushButton.setDisabled(True)
         self.ui.pushButton_2.setDisabled(True)
         self.ui.nueva_medicion.setDisabled(True)
@@ -121,8 +122,12 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
+
     def agregaPaciente(self):
         self.ventanaAgregar.show()
+
+
+
     def terminarMedicion(self):
         self.ui.finalizar_medicion.setDisabled(True)
         self.ui.pushButton_2.setDisabled(True)
@@ -133,7 +138,6 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.nueva_medicion.setDisabled(True)
         self.ui.finalizar_medicion.setEnabled(True)
 
-
     def graficaSenal(self):
         adaptador = Adaptador()
         i = adaptador.getInputStream()
@@ -141,7 +145,6 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.pushButton_2.setEnabled(False)
         self.ui.pushButton.setEnabled(True)
         self.ui.graficar(i)
-
 
     def detener(self):
         self.ui.pushButton.setEnabled(False)
@@ -167,6 +170,15 @@ class pacienteWindow(QtGui.QMainWindow):
                 QtGui.QMessageBox.about(self, "Info", "No se ha encontrado un paciente")
         except Exception as e:
             print(e)
+
+    def realizaDiagnostico(self):
+        idP = str(self.ui.busqueda.toPlainText())
+        tiP = self.tids[self.ui.ti.currentIndex()]
+        if(len(idP)>0 and len(tiP)>0):
+            self.ventanaDiagnostico=DiagnosticoWindow(idP, tiP)
+            self.ventanaDiagnostico.show()
+        else:
+            QtGui.QMessageBox.about(self, "ERROR", "Los campos de identificacion y tipo de identificacion no pueden ser vacios.")
 
 class DiagnosticoWindow(QtGui.QMainWindow):
     def __init__(self, idPaciente, tiPaciente,  *args, **kwargs):
@@ -208,7 +220,7 @@ if __name__=="__main__":
     app = QtGui.QApplication(sys.argv)
     #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
     #pp = MainWindows() #Agregar paciente
-    #pp = pacienteWindow() #seleccionat paciente
-    pp=DiagnosticoWindow("51669907", "CC")
+    pp = pacienteWindow() #seleccionat paciente
+    #pp=DiagnosticoWindow("51669907", "CC")
     pp.show()
     sys.exit(app.exec_())

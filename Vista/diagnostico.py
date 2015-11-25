@@ -61,7 +61,7 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 579, 269))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.textEdit = QtGui.QTextEdit(self.scrollAreaWidgetContents)
-        self.textEdit.setGeometry(QtCore.QRect(0, -10, 581, 281))
+        self.textEdit.setGeometry(QtCore.QRect(0, 0, 581, 271))
         self.textEdit.setObjectName(_fromUtf8("textEdit"))
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.nombreP = QtGui.QTextEdit(self.centralwidget)
