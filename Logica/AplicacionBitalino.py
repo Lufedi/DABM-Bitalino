@@ -42,6 +42,7 @@ class AplicacionBitalino():
             return (Consulta()).consultarSenal(paciente_id, senal_id)
         except:
             raise OperationalError
+
     @classmethod
     def agregarSenal(self,id,   orden , data, paciente):
         try:
@@ -49,6 +50,7 @@ class AplicacionBitalino():
             Agregar.agregarSenal(id,  orden, data, paciente)
         except :
             raise OperationalError
+
     @classmethod
     def consultarSenal(self, paciente_id, senal_id):
 
@@ -59,7 +61,6 @@ class AplicacionBitalino():
                 c = c.strip().strip("'")
                 r.append(float(c))
         return r
-
 
     @classmethod
     def consultarMaxIdSenal(self):

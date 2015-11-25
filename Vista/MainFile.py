@@ -6,7 +6,7 @@ from PyQt4 import QtGui
 from Vista.agregarpacienteGUI import Ui_MainWindow as AgregaPaciente
 from Vista.buscarDispositivosGUI import Ui_MainWindow as Dispositivos
 from Vista.senalesPaciente import Ui_MainWindow as Senales
-from Vista.diagnostico import Ui_Dialog as Diagnostico
+from Vista.diagnostico import Ui_MainWindow as DiagnosticoPaciente
 from Persistencia.Base import *
 from Logica.Adaptador import *
 from Logica.AplicacionBitalino import AplicacionBitalino
@@ -168,13 +168,23 @@ class pacienteWindow(QtGui.QMainWindow):
         except Exception as e:
             print(e)
 
-class DiagnosticoWindow():
-    def __init__(self, *args, **kwargs):
-        super(MainWindows, self).__init__(*args, **kwargs)
-        self.ui = Diagnostico()
+class DiagnosticoWindow(QtGui.QMainWindow):
+    def __init__(self, idPaciente, tiPaciente,  *args, **kwargs):
+        super(DiagnosticoWindow, self).__init__(*args, **kwargs)
+        self.ui = DiagnosticoPaciente()
         self.ui.setupUi(self)
+        self.idP= idPaciente
+        self.tiP=tiPaciente
+        self.ui.TI.setText(self.tiP) ; self.ui.TI.setEnabled(False)
+        self.ui.IDp.setText(self.idP) ; self.ui.IDp.setEnabled(False)
+        paciente=AplicacionBitalino.consultarPacientePorId(self.idP, self.tiP)
+        self.ui.nombreP.setText(paciente.nombres+" "+paciente.apellidos)
+        self.ui.Guardar.clicked.connect(self.agregaDiagnostico)
 
-        self.add=AplicacionBitalino()
+    def agregaDiagnostico(self):
+        comentarios=str(self.ui.textEdit.toPlainText())
+        AplicacionBitalino.agregarDiagnostico(comentarios, self.idP)
+
 """def v1():
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -198,6 +208,7 @@ if __name__=="__main__":
     app = QtGui.QApplication(sys.argv)
     #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
     #pp = MainWindows() #Agregar paciente
-    pp = pacienteWindow() #seleccionat paciente
+    #pp = pacienteWindow() #seleccionat paciente
+    pp=DiagnosticoWindow("51669907", "CC")
     pp.show()
     sys.exit(app.exec_())
