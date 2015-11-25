@@ -43,7 +43,7 @@ class Senal(Base):
     id =  Column(Integer, primary_key = True )
     orden =  Column(Integer,primary_key = True)
     data =  Column(String)
-    paciente_id = Column(String, ForeignKey('paciente.id'),primary_key = True, nullable=False)
+    paciente_id = Column(String, ForeignKey('diagnostico.id'),primary_key = True, nullable=False)
 
 
     def __init__(self, id, orden, data, paciente):
