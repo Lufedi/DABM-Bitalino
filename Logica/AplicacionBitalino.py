@@ -25,10 +25,15 @@ class AplicacionBitalino():
 
     @classmethod
     def agregarPaciente(self, idP, ti, name, last, gender, date, age, phone):
-
         Agregar.agregaPaciente(idP, ti, name, last, gender, date, age, phone)
 
+    @classmethod
+    def agregarDiagnostico(self, comentarios, paciente):
+        Agregar.agregarDiagostico(comentarios, paciente)
 
+    @classmethod
+    def consultaDiagnostico(self, paciente):
+        Consulta.consultaDiagnostico(paciente)
 
     #devuelve un arreglo con los datos de la senal pedida para el paciente
     @classmethod

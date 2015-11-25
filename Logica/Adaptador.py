@@ -13,6 +13,7 @@ class Reader(threading.Thread):
         self.device = None
         self.stream = stream
     #Retorna una lista de los dispositivos que encuentra por bluetooth
+
     def encontrarDispositivos(self):
         dispositivos =  bitalino.find()
         return  dispositivos
@@ -36,11 +37,8 @@ class Reader(threading.Thread):
     def leer(self):
         return self.device.read(self.N)
 
-
-
     def run(self):
         print "Soy el hilo"
-
         #print (a.encontrarDispositivos())
         self.conectarseADispositivo("98:D3:31:B2:12:18")
         self.comenzar([0])

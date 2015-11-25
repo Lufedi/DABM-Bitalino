@@ -6,6 +6,7 @@ from PyQt4 import QtGui
 from Vista.agregarpacienteGUI import Ui_MainWindow as AgregaPaciente
 from Vista.buscarDispositivosGUI import Ui_MainWindow as Dispositivos
 from Vista.senalesPaciente import Ui_MainWindow as Senales
+from Vista.diagnostico import Ui_Dialog as Diagnostico
 from Persistencia.Base import *
 from Logica.Adaptador import *
 from Logica.AplicacionBitalino import AplicacionBitalino
@@ -167,6 +168,13 @@ class pacienteWindow(QtGui.QMainWindow):
         except Exception as e:
             print(e)
 
+class DiagnosticoWindow():
+    def __init__(self, *args, **kwargs):
+        super(MainWindows, self).__init__(*args, **kwargs)
+        self.ui = Diagnostico()
+        self.ui.setupUi(self)
+
+        self.add=AplicacionBitalino()
 """def v1():
     import sys
     app = QtWidgets.QApplication(sys.argv)

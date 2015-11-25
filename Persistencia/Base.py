@@ -67,11 +67,10 @@ class Diagnostico(Base):
     comentarios = Column(String)
     paciente = Column(String, ForeignKey('paciente.id') )
 
-    def __init__(self,  fecha, comentarios, paciente):
-        self.fecha = fecha
-        self.comentarios = comentarios
-        self.paciente =  paciente
-
+    def __init__(self, diag, paciente):
+        self.fecha= func.current_date()
+        self.comentarios= diag
+        self.paciente = paciente
 
 class Agregar():
 
@@ -85,7 +84,6 @@ class Agregar():
         session.commit()
     @classmethod
     def agregarSenal(self, id,  orden , data, pacienteId):
-
         Base.metadata.create_all(engine)
         #p =  session.query(Paciente).filter(Paciente.id == pacienteId).all()
         #print (str(p) + ' - ' + str(pacienteId))
@@ -109,12 +107,14 @@ class Agregar():
         app = Aplicacion(idtarjeta)
         session.add(app)
         session.commit()
+
     @classmethod
-    def agregarDiagostico(self, fecha, comentarios, paciente):
+    def agregarDiagostico(self, comentarios, paciente):
         Base.metadata.create_all(engine)
-        dia = Diagnostico(fecha, comentarios, paciente)
+        dia = Diagnostico(comentarios, paciente)
         session.add(dia)
         session.commit()
+
 
 class Consulta(object):
     def __init__(self):
@@ -150,3 +150,13 @@ class Consulta(object):
             return session.query(Senal).filter(Senal.paciente_id == paciente_id).group_by(Senal.id).all()
         except:
             raise OperationalError
+
+    @classmethod
+    def consultaDiagnostico(self, paciente_id):
+        try:
+            return session.query(Diagnostico).filter(Diagnostico.paciente==paciente_id).order_by(Diagnostico.fecha).all()
+        except:
+            raise OperationalError
+
+
+
