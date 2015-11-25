@@ -17,4 +17,12 @@ for s in Consulta.consularSenalesDelPaciente("1014270615"):
 
 from  Logica.AplicacionBitalino import *
 
-print AplicacionBitalino.consultarSenal("51669907" , 38)
+data =  AplicacionBitalino.consultarSenal("1020793766" , 17)
+
+
+import pylab
+
+pylab.plot(data)
+pylab.ylabel("Pulso")
+pylab.xlabel("Tiempo")
+pylab.show()
