@@ -111,19 +111,26 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.pushButton.clicked.connect(self.detener)
         self.ui.pushButton_2.clicked.connect(self.graficaSenal)
         self.ui.nueva_medicion.clicked.connect(self.nuevaMedicion)
+        self.ui.finalizar_medicion.clicked.connect(self.terminarMedicion)
         self.ui.pushButton.setDisabled(True)
         self.ui.pushButton_2.setDisabled(True)
         self.ui.nueva_medicion.setDisabled(True)
         self.ui.finalizar_medicion.setDisabled(True)
+        self.ui.actionVer_historial.setDisabled(True)
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
     def agregaPaciente(self):
         self.ventanaAgregar.show()
-
+    def terminarMedicion(self):
+        self.ui.finalizar_medicion.setDisabled(True)
+        self.ui.pushButton_2.setDisabled(True)
+        self.ui.nueva_medicion.setEnabled(True)
     def nuevaMedicion(self):
-        self.ui.graficaSenales.orden_senal = 0
+        self.ui.nuevaMedicion()
         self.ui.pushButton_2.setEnabled(True)
+        self.ui.nueva_medicion.setDisabled(True)
+        self.ui.finalizar_medicion.setEnabled(True)
 
 
     def graficaSenal(self):

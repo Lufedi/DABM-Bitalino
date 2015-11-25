@@ -17,7 +17,7 @@ for s in Consulta.consularSenalesDelPaciente("1014270615"):
 
 from  Logica.AplicacionBitalino import *
 
-data =  AplicacionBitalino.consultarSenal("1020793766" , 17)
+data =  AplicacionBitalino.consultarSenal("51669907" , 40)
 
 
 import pylab

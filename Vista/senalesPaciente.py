@@ -185,9 +185,17 @@ class Ui_MainWindow(object):
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
 
+
+
+    def nuevaMedicion(self):
+        self.graficaSenales.orden_senal = 0
+        self.graficaSenales.senal_id = AplicacionBitalino.consultarMaxIdSenal() + 1
     def graficar(self, stream):
         #TODO Agregar parametros para guardar las senales correspondientes al paciente
         self.graficaSenales.graficar(stream)
+
+    def detener(self):
+        self.graficaSenales.detener()
 class Plot(FigureCanvas):
     def __init__(self,parent=None, width=20, height=20, dpi=100):
         #fig = Figure(figsize=(width, height), dpi=dpi )
@@ -280,7 +288,6 @@ class Plot(FigureCanvas):
         self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
     def graficar(self, stream):
         print "graficando"
-        self.senal_id  = AplicacionBitalino.consultarMaxIdSenal() + 1
         self.q = stream
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_figure)
