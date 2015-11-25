@@ -43,14 +43,14 @@ class Senal(Base):
     id =  Column(Integer, primary_key = True )
     orden =  Column(Integer,primary_key = True)
     data =  Column(String)
-    paciente_id = Column(String, ForeignKey('diagnostico.id'),primary_key = True, nullable=False)
+    diagnostico_id = Column(String, ForeignKey('diagnosticos.id'),primary_key = True, nullable=False)
 
 
-    def __init__(self, id, orden, data, paciente):
+    def __init__(self, id, orden, data, diagnostico_id):
         self.id = id
         self.orden = orden
         self.data =  data
-        self.paciente = paciente
+        self.diagnostico_id = diagnostico_id
 
 
 class Aplicacion(Base):
@@ -83,7 +83,7 @@ class Agregar():
         session.add(paciente)
         session.commit()
     @classmethod
-    def agregarSenal(self, id,  orden , data, pacienteId):
+    def agregarSenal(self, id,  orden , data, diagnostico_id):
         Base.metadata.create_all(engine)
         #p =  session.query(Paciente).filter(Paciente.id == pacienteId).all()
         #print (str(p) + ' - ' + str(pacienteId))
@@ -94,10 +94,10 @@ class Agregar():
         print "data"
         print data
         print "pacienteId"
-        print pacienteId
+        print diagnostico_id
 
-        senal = Senal(id,  orden, str(data), pacienteId)
-        senal.paciente_id = pacienteId
+        senal = Senal(id,  orden, str(data), diagnostico_id)
+        senal.diagnostico_id = diagnostico_id
         session.add(senal)
         session.commit()
 
@@ -122,6 +122,12 @@ class Consulta(object):
     @classmethod
     def consularIdUltimaSenal(self):
         res =  session.query(func.max(Senal.id)).first()[0]
+        if res == None:
+            res = 0
+        return res
+    @classmethod
+    def consultarIdUltimoDiagnostico(self):
+        res =  session.query(func.max(Diagnostico.id)).first()[0]
         if res == None:
             res = 0
         return res

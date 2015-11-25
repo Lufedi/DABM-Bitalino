@@ -44,12 +44,9 @@ class AplicacionBitalino():
             raise OperationalError
 
     @classmethod
-    def agregarSenal(self,id,   orden , data, paciente):
-        try:
-            print str(orden) +  " " + paciente
-            Agregar.agregarSenal(id,  orden, data, paciente)
-        except :
-            raise OperationalError
+    def agregarSenal(self,id,   orden , data, diagnostico_id):
+        Agregar.agregarSenal(id,  orden, data, diagnostico_id)
+
 
     @classmethod
     def consultarSenal(self, paciente_id, senal_id):
