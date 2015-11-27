@@ -12,6 +12,7 @@ class Reader(threading.Thread):
         self.SampligRate = 1000
         self.device = None
         self.stream = stream
+        self.delta = -500
     #Retorna una lista de los dispositivos que encuentra por bluetooth
 
     def encontrarDispositivos(self):
@@ -52,7 +53,7 @@ class Reader(threading.Thread):
 
             for x in data[:,5]:
                 print(x)
-                x -= 500
+                x += self.delta
                 self.stream.put(x)
             print("dos")
             #res.append(array(data[:,5]))

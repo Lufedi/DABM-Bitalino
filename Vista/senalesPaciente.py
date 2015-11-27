@@ -97,12 +97,18 @@ class Ui_MainWindow(object):
         self.cajita.setGeometry(QtCore.QRect(40, 190, 731, 311))
         self.cajita.setObjectName(_fromUtf8("cajita"))
 
-        self.fig =pylab.figure(1)
-        ax=self.fig.add_subplot(111) ; ax.grid(True)
-        ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude"); ax.axis([0,self.am,-500,500])
-        line1=ax.plot(self.xAchse,self.yAchse,'r-')
+
+        #-------------CONFIGURACION DEL GRAFICADOR CON PYLAB
+        #TODO pasar el graficador pylab a otra clase para desacoplarlo de la glase PyQt
         dc = Plot(None, width=20, height=20, dpi=100)
         self.graficaSenales = dc
+
+        self.fig =pylab.figure(1)
+        ax=self.fig.add_subplot(111) ; ax.grid(True)
+        ax.set_xlabel("Time") ; ax.set_ylabel("Amplitude"); ax.axis([0,self.am,-1*self.graficaSenales.amplitud,self.graficaSenales.amplitud])
+        line1=ax.plot(self.xAchse,self.yAchse,'r-')
+
+
         self.graficaSenales.setGeometry(QtCore.QRect(40, 190, 731, 321))
         manager = pylab.get_current_fig_manager()
         self.layout=QtGui.QVBoxLayout(self.cajita)
@@ -110,7 +116,7 @@ class Ui_MainWindow(object):
         self.layout.setObjectName(_fromUtf8("graficador"))
         self.layout.addWidget(self.graficaSenales)
 
-
+        #--------------------------
         self.horizontalLayoutWidget_2 = QtGui.QWidget(self.centralwidget)
         self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(200, 520, 571, 41))
         self.horizontalLayoutWidget_2.setObjectName(_fromUtf8("horizontalLayoutWidget_2"))
@@ -219,7 +225,8 @@ class Plot(FigureCanvas):
         self.ax.set_title("ECG")
         self.ax.set_xlabel("Time")
         self.ax.set_ylabel("Amplitude")
-        self.ax.axis([0,self.am,-500,500])
+        self.amplitud = 1.5
+        self.ax.axis([0,self.am,-1*self.amplitud,self.amplitud])
         self.line1=self.ax.plot(self.xAchse,self.yAchse,'r-')
         self.manager = pylab.get_current_fig_manager()
 
@@ -282,7 +289,7 @@ class Plot(FigureCanvas):
       #global values
       CurrentXAxis=pylab.arange(len(self.values)-self.am,len(self.values),1)
       self.line1[0].set_data(CurrentXAxis,pylab.array(self.values[-self.am:]))
-      self.ax.axis([CurrentXAxis.min(),CurrentXAxis.max(),-500,500])
+      self.ax.axis([CurrentXAxis.min(),CurrentXAxis.max(),-1*self.amplitud,self.amplitud])
       self.manager.canvas.draw()
       #manager.show()
     def compute_initial_figure(self):

@@ -52,10 +52,10 @@ class AplicacionBitalino():
 
 
     @classmethod
-    def consultarSenal(self, paciente_id, senal_id):
+    def consultarSenal(self, senal_id):
 
         r = []
-        for d in Consulta.consultarSenal(paciente_id, senal_id):
+        for d in Consulta.consultarSenal( senal_id):
             s = d.data
             for c in s.strip('[').strip(']').split(','):
                 c = c.strip().strip("'")

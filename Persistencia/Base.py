@@ -121,6 +121,9 @@ class Consulta(object):
         pass
 
     @classmethod
+    def consultarDiagnosticosPaciente(self, paciente):
+        return session.query(Diagnostico).filter(Diagnostico.paciente == paciente).all()
+    @classmethod
     def consultarMaxIdDiagnostrico(self):
         res  =  session.query(func.max(Diagnostico.id)).first()[0]
         if res == None:
@@ -153,9 +156,9 @@ class Consulta(object):
             return 0
 
     @classmethod
-    def consultarSenal(self, paciente_id, senal_id):
+    def consultarSenal(self, senal_id):
 
-        return session.query(Senal).filter(Senal.paciente_id == paciente_id, Senal.id == senal_id ).order_by(Senal.orden).all()
+        return session.query(Senal).filter( Senal.id == senal_id ).order_by(Senal.orden).all()
 
     @classmethod
     def consularSenalesDelPaciente(self, paciente_id):
