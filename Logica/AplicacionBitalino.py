@@ -13,7 +13,10 @@ class AplicacionBitalino():
     def __init__(self):
         pass
 
-
+    @classmethod
+    def consultarDiagnosticosPaciente(self, pacienteId):
+        print pacienteId + "consultado"
+        return Consulta.consultarDiagnosticosPaciente(pacienteId)
     @classmethod
     def actualizarDiagnostico(self, comentarios, idP):
         Agregar.actualizarDiagnostico(AplicacionBitalino.diagnostico_id, comentarios, idP)
@@ -100,4 +103,9 @@ class AplicacionBitalino():
     @classmethod
     def consularSenalesDelPaciente(self, paciente_id):
         return Consulta.consularSenalesDelPaciente(paciente_id)
+
+    @classmethod
+    def consultarSenalesDelDiagnostico(self, diagnostico_id):
+        return  Consulta.consultarSenalesDelDiagnostico(diagnostico_id)
+
 

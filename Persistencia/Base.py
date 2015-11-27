@@ -177,6 +177,12 @@ class Consulta(object):
             raise OperationalError
 
     @classmethod
+    def consultarSenalesDelDiagnostico(self, diagnostico_id):
+
+        return session.query(Senal).filter(Senal.diagnostico_id == diagnostico_id).group_by(Senal.id).all()
+
+
+    @classmethod
     def consultaDiagnostico(self, paciente_id):
         try:
             return session.query(Diagnostico).filter(Diagnostico.paciente==paciente_id).order_by(Diagnostico.fecha).all()

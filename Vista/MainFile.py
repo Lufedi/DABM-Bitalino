@@ -7,6 +7,7 @@ from Vista.agregarpacienteGUI import Ui_MainWindow as AgregaPaciente
 from Vista.buscarDispositivosGUI import Ui_MainWindow as Dispositivos
 from Vista.senalesPaciente import Ui_MainWindow as Senales
 from Vista.diagnostico import Ui_MainWindow as DiagnosticoPaciente
+from Vista.historialPactiente import Ui_MainWindow as HistorialPaciente
 from Persistencia.Base import *
 from Logica.Adaptador import *
 from Logica.AplicacionBitalino import AplicacionBitalino
@@ -141,7 +142,6 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.pushButton_2.setDisabled(True)
         self.ui.nueva_medicion.setDisabled(True)
         self.ui.finalizar_medicion.setDisabled(True)
-        self.ui.actionVer_historial.setDisabled(True)
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
@@ -153,7 +153,17 @@ class pacienteWindow(QtGui.QMainWindow):
         self.connect(self.ui.actionDiagn_stico, SIGNAL("triggered()"), self.realizaDiagnostico)
         self.ui.actionTarjeta_Bitalino.setShortcut("Ctrl+T")
         self.connect(self.ui.actionTarjeta_Bitalino, SIGNAL("triggered()"), self.seleccionaTarjeta)
+        self.ui.actionVer_historial.setShortcut("Ctrl+H")
+        self.connect(self.ui.actionVer_historial, SIGNAL("triggered()"), self.verHistorial)
 
+    def verHistorial(self):
+        idP = str(self.ui.busqueda.toPlainText())
+        tiP = str(self.tids[self.ui.ti.currentIndex()])
+        if(len(idP)>0 and idP !="ID"):
+            self.ventanaHistorial=HistorialPacientesWindow(idP, tiP)
+            self.ventanaHistorial.show()
+        else:
+            QtGui.QMessageBox.about(self, "ERROR", "Los campos de identificacion y tipo de identificacion no pueden ser vacios.")
     def seleccionaTarjeta(self):
         self.ejec=TarjetaBitalinoWindow()
         self.ejec.show()
@@ -204,6 +214,7 @@ class pacienteWindow(QtGui.QMainWindow):
                     AplicacionBitalino.agregarDiagnostico(None, paciente.id)
                     diagnostico = AplicacionBitalino.consultarMaxIdDiagnostrico()
                     self.ui.graficaSenales.set_diagnostico(diagnostico)
+                    self.ui.actionVer_historial.setEnabled(True)
                 else:
                     QtGui.QMessageBox.about(self, "INFO", "No se ha encontrado un paciente")
             else:
@@ -219,6 +230,45 @@ class pacienteWindow(QtGui.QMainWindow):
             self.ventanaDiagnostico.show()
         else:
             QtGui.QMessageBox.about(self, "ERROR", "Los campos de identificacion y tipo de identificacion no pueden ser vacios.")
+class HistorialPacientesWindow(QtGui.QMainWindow):
+    def __init__(self, idPaciente, tiPaciente,  *args, **kwargs):
+        super(HistorialPacientesWindow, self).__init__(*args, **kwargs)
+        self.ui = HistorialPaciente()
+        self.ui.setupUi(self)
+        self.idP= idPaciente
+        self.tiP=tiPaciente
+        paciente=AplicacionBitalino.consultarPacientePorId(self.idP, self.tiP)
+        self.ui.nombre_paciente_lbl.setText(paciente.nombres+" "+paciente.apellidos + " - " + self.idP)
+        self.prepararVentanas()
+        self.ui.diagnosticos_list.clicked.connect(self.prepararMediciones)
+        self.ui.cargar_btn.clicked.connect(self.cargarSenal)
+    def prepararVentanas(self):
+        diagnosticos = AplicacionBitalino.consultarDiagnosticosPaciente(self.idP)
+        for d in diagnosticos:
+            self.ui.diagnosticos_list.addItem("No. " + str(d.id) + " " + str(d.comentarios))
+    def prepararMediciones(self):
+        self.ui.senales_list.clear()
+        diagnostico_id = self.ui.diagnosticos_list.currentItem().text().split(" ")[1]
+        #print str(diagnostico_id)
+        senales = AplicacionBitalino.consultarSenalesDelDiagnostico(str(diagnostico_id))
+        for s in senales:
+            self.ui.senales_list.addItem("Senal No: " + str(s.id))
+
+    def cargarSenal(self):
+        senal_id = self.ui.senales_list.currentItem().text().split(" ")[2]
+        data  =  AplicacionBitalino.consultarSenal(str(senal_id))
+        pylab.plot(data)
+        pylab.ylabel("Pulso")
+        pylab.xlabel("Tiempo")
+        pylab.show()
+
+
+
+
+
+
+
+
 
 class DiagnosticoWindow(QtGui.QMainWindow):
     def __init__(self, idPaciente, tiPaciente,  *args, **kwargs):
@@ -262,6 +312,7 @@ if __name__=="__main__":
     #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
     #pp = MainWindows() #Agregar paciente
     pp = pacienteWindow() #seleccionat paciente
+    #pp = HistorialPacientesWindow("1020793766", "CC")
     #pp=DiagnosticoWindow("101010101", "CC")
     pp.show()
     sys.exit(app.exec_())
