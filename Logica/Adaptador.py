@@ -67,7 +67,9 @@ import threading
 
 class Adaptador(object):
     def __init__(self):
+        #self.canales = {'ECG': 5 , ''}
         self.input = Queue.Queue()
+        self.canal = 5
     def comenzarAGraficar(self):
 
 
@@ -86,6 +88,9 @@ class Adaptador(object):
 
     def getInputStream(self):
         return self.input
+
+    def setCanal(self, canal):
+        self.canal = self.canales[canal]
     def paraDeGraficar(self):
         pass
 

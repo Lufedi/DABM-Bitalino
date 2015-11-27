@@ -157,8 +157,11 @@ class Ui_MainWindow(object):
         self.actionVer_historial.setObjectName(_fromUtf8("actionVer_historial"))
         self.actionDiagn_stico = QtGui.QAction(MainWindow)
         self.actionDiagn_stico.setObjectName(_fromUtf8("actionDiagn_stico"))
+        self.actionTarjeta_Bitalino = QtGui.QAction(MainWindow)
+        self.actionTarjeta_Bitalino.setObjectName(_fromUtf8("actionTarjeta_Bitalino"))
         self.menuOpciones.addAction(self.actionVer_historial)
         self.menuOpciones.addAction(self.actionDiagn_stico)
+        self.menuOpciones.addAction(self.actionTarjeta_Bitalino)
         self.menubar.addAction(self.menuOpciones.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -190,6 +193,7 @@ class Ui_MainWindow(object):
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
+        self.actionTarjeta_Bitalino.setText(_translate("MainWindow", "Tarjeta Bitalino", None))
 
     def nuevaMedicion(self):
         self.graficaSenales.orden_senal = 0

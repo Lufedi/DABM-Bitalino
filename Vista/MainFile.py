@@ -238,8 +238,8 @@ if __name__=="__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
-    pp = MainWindows() #Agregar paciente
-    #pp = pacienteWindow() #seleccionat paciente
+    #pp = MainWindows() #Agregar paciente
+    pp = pacienteWindow() #seleccionat paciente
     #pp=DiagnosticoWindow("101010101", "CC")
     pp.show()
     sys.exit(app.exec_())
