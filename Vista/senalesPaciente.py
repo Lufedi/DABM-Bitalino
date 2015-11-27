@@ -157,8 +157,11 @@ class Ui_MainWindow(object):
         self.actionVer_historial.setObjectName(_fromUtf8("actionVer_historial"))
         self.actionDiagn_stico = QtGui.QAction(MainWindow)
         self.actionDiagn_stico.setObjectName(_fromUtf8("actionDiagn_stico"))
+        self.actionTarjeta_Bitalino = QtGui.QAction(MainWindow)
+        self.actionTarjeta_Bitalino.setObjectName(_fromUtf8("actionTarjeta_Bitalino"))
         self.menuOpciones.addAction(self.actionVer_historial)
         self.menuOpciones.addAction(self.actionDiagn_stico)
+        self.menuOpciones.addAction(self.actionTarjeta_Bitalino)
         self.menubar.addAction(self.menuOpciones.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -171,7 +174,7 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">ID</span></p></body></html>", None))
-        self.titulo.setText(_translate("MainWindow", "Paciente", None))
+        self.titulo.setText(_translate("MainWindow", "ECGECI", None))
         self.buscar.setText(_translate("MainWindow", "Buscar paciente", None))
         self.agregar.setText(_translate("MainWindow", "Agregar paciente", None))
         self.Nombre.setText(_translate("MainWindow", "Nombre", None))
@@ -190,6 +193,7 @@ class Ui_MainWindow(object):
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
+        self.actionTarjeta_Bitalino.setText(_translate("MainWindow", "Tarjeta Bitalino", None))
 
     def nuevaMedicion(self):
         self.graficaSenales.orden_senal = 0
