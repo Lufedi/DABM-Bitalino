@@ -27,6 +27,8 @@ class MainWindows(QtGui.QMainWindow):
         self.ui.send.clicked.connect(self.enviarPaciente)
         self.ui.clean.clicked.connect(self.limpia)
         self.add=AplicacionBitalino()
+        self.ui.actionImportar_pacientes.setShortcut("Ctrl+I")
+        self.connect(self.ui.actionImportar_pacientes, SIGNAL("triggered()"),self.importarPacientes())
 
 
     def enviarPaciente(self):
@@ -45,22 +47,23 @@ class MainWindows(QtGui.QMainWindow):
         birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=str(self.ui.spinBox.value()); phone=str(self.ui.phone.toPlainText())
         if(AplicacionBitalino.validaDatos(idP, name, last, age, phone, b.year())):
             print("idp " + idP, type(idP))
-            AplicacionBitalino.agregarPaciente(idP,ti, name,  last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
+            AplicacionBitalino.agregarPaciente(idP,ti, name,  last, gender, birth, age, phone)
         else:
             QtGui.QMessageBox.about(self, "DATOS CORRUPTOS", "Por favor revise los datos ingresados")
-
-        """ print("birth  : " + birth)
-        print( " ti " + ti )
-        print(" name " + name)
-        print(" gener " + gender )
-        print(" date " + datetime.datetime.strptime(birth, "%d/%m/%y").date().__str__() )
-        print(" age " + str(age) )
-        print("phone " + phone )
-        """
         #birth = "10/06/94"
         #self.add.agregaPaciente(idP, "CC" , "luis" , "felipe" , "M" , datetime.datetime.strptime(birth, "%d/%m/%y").date(), "300210593", 21)   def validaDatos(self, idP, name, last, age, phone, year):
 
-
+    def importarPacientes(self):
+        try:
+            errores=AplicacionBitalino.importarPacientes("../pacientes.txt")
+            if(len(errores)==0):
+                 QtGui.QMessageBox.about(self, "ACCION", "Se ha terminado de importar el archivo de pacientes")
+            else:
+                msg="\n".join(errores)
+                QtGui.QMessageBox.about(self, "ERROR", "Se ha terminado de importar el archivo de pacientes\n"+
+                                                        "No se pudieron importar los siguientes pacientes: \n"+msg)
+        except:
+             QtGui.QMessageBox.about(self, "ERROR DE ARCHIVO", "El archivo pacientes no existe")
 
     def limpia(self):
         self.ui.idp.setText("")
