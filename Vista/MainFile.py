@@ -29,8 +29,8 @@ class MainWindows(QtGui.QMainWindow):
         self.add=AplicacionBitalino()
         self.ui.actionImportar_pacientes.setShortcut("Ctrl+I")
         self.connect(self.ui.actionImportar_pacientes, SIGNAL("triggered()"),self.importarPacientes)
-
-
+        self.ui.actionSalir.setShortcut("Ctrl+E")
+        self.connect(self.ui.actionSalir, SIGNAL("triggered()"), self.salir)
 
     def enviarPaciente(self):
         idP = str(self.ui.idp.toPlainText())
@@ -46,8 +46,6 @@ class MainWindows(QtGui.QMainWindow):
         else:
             birth+="/"+str(b.month())
         birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=str(self.ui.spinBox.value()); phone=str(self.ui.phone.toPlainText())
-
-
         try:
             if(AplicacionBitalino.validaDatos(idP, name, last, age, phone, b.year())):
                 AplicacionBitalino.agregarPaciente(idP,ti, name,  last, gender, birth, age, phone)
@@ -56,8 +54,9 @@ class MainWindows(QtGui.QMainWindow):
                 QtGui.QMessageBox.about(self, "DATOS CORRUPTOS", "Por favor revise los datos ingresados")
         except Exception as e:
                 QtGui.QMessageBox.about(self, "ERROR ", e.message)
-        #birth = "10/06/94"
-        #self.add.agregaPaciente(idP, "CC" , "luis" , "felipe" , "M" , datetime.datetime.strptime(birth, "%d/%m/%y").date(), "300210593", 21)   def validaDatos(self, idP, name, last, age, phone, year):
+
+    def salir(self):
+        exit()
 
     def importarPacientes(self):
         try:
