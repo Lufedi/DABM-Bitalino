@@ -131,8 +131,7 @@ class pacienteWindow(QtGui.QMainWindow):
 
     def accionesMenu(self):
         self.ui.actionDiagn_stico.setShortcut("Ctrl+D")
-        self.connect(self.ui.actionDiagn_stico, SIGNAL("triggered()"), self.realizaDiagnostico())
-
+        self.connect(self.ui.actionDiagn_stico, SIGNAL("triggered()"), self.realizaDiagnostico)
 
 
     def terminarMedicion(self):
