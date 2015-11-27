@@ -43,10 +43,11 @@ class MainWindows(QtGui.QMainWindow):
         else:
             birth+="/"+str(b.month())
         birth+="/"+str(b.year())[2:4] ; print(birth) ;  age=str(self.ui.spinBox.value()); phone=str(self.ui.phone.toPlainText())
-        if(not(self.validaDatos(idP, name, last, age, phone))):
-             raise Exception("ERROR DATOS CORRUPTOS")
-        print("idp " + idP, type(idP))
-        AplicacionBitalino.agregarPaciente(idP,ti, name,  last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
+        if((self.validaDatos(idP, name, last, age, phone, b.year()))):
+            print("idp " + idP, type(idP))
+            AplicacionBitalino.agregarPaciente(idP,ti, name,  last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
+
+
         """ print("birth  : " + birth)
         print( " ti " + ti )
         print(" name " + name)
@@ -55,18 +56,16 @@ class MainWindows(QtGui.QMainWindow):
         print(" age " + str(age) )
         print("phone " + phone )
         """
-
-
         #birth = "10/06/94"
         #self.add.agregaPaciente(idP, "CC" , "luis" , "felipe" , "M" , datetime.datetime.strptime(birth, "%d/%m/%y").date(), "300210593", 21)   def validaDatos(self, idP, name, last, age, phone, year):
 
-        def validaDatos(self, idP, name, last, age, phone):
+        def validaDatos(self, idP, name, last, age, phone, year):
             r=True
             try:
-                int(idP) ; r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 ; int(phone)
+                int(idP) ; r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 and year+age== datetime.datetime.now().year; int(phone)
                 return (r)
             except:
-                raise Exception("DATOS CORRUPTOS, Por favor revise los datos ingresados")
+                QtGui.QMessageBox.about(self, "DATOS CORRUPTOS", "Por favor revise los datos ingresados")
 
     def limpia(self):
         self.ui.idp.setText("")
