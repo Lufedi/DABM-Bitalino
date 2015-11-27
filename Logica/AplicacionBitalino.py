@@ -19,13 +19,16 @@ class AplicacionBitalino():
     @classmethod
     def importarPacientes(self, path):
         arch=open(path) ; errores=[]
-        for line in arch:
+        for line in arch.readlines():
             datosPaciente=line.strip().split(";")
-            birth=datetime.datetime.strptime(datosPaciente[5], "%d/%m/%y").date()
-            if(self.validaDatos(datosPaciente[0], datosPaciente[2], datosPaciente[3], datosPaciente[6], datosPaciente[7], birth.year)):
-                self.agregarPaciente(datosPaciente[0], datosPaciente[1], datosPaciente[2],
-                                datosPaciente[3], datosPaciente[4], datosPaciente[5], datosPaciente[6], datosPaciente[7])
-            else:
+            try:
+                birth=datetime.datetime.strptime(datosPaciente[5], "%d/%m/%y").date()
+                if(self.validaDatos(datosPaciente[0], datosPaciente[2], datosPaciente[3], datosPaciente[6], datosPaciente[7], birth.year)):
+                    self.agregarPaciente(datosPaciente[0], datosPaciente[1], datosPaciente[2],
+                                    datosPaciente[3], datosPaciente[4], datosPaciente[5], datosPaciente[6], datosPaciente[7])
+                else:
+                    errores.append(str(datosPaciente[1]+" "+datosPaciente[0]))
+            except:
                 errores.append(str(datosPaciente[1]+" "+datosPaciente[0]))
         return errores
 
@@ -48,7 +51,10 @@ class AplicacionBitalino():
 
     @classmethod
     def agregarPaciente(self, idP, ti, name, last, gender, date, age, phone):
-        Agregar.agregaPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(date, "%d/%m/%y").date(), age, phone)
+        if( Consulta.consultarPacientePorId(idP, ti) == None):
+            Agregar.agregaPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(date, "%d/%m/%y").date(), age, phone)
+        else:
+            raise Exception("El paciente ya existe")
 
     @classmethod
     def agregarDiagnostico(self, comentarios, paciente):
