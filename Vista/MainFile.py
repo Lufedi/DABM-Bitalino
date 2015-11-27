@@ -46,7 +46,8 @@ class MainWindows(QtGui.QMainWindow):
         if((self.validaDatos(idP, name, last, age, phone, b.year()))):
             print("idp " + idP, type(idP))
             AplicacionBitalino.agregarPaciente(idP,ti, name,  last, gender, datetime.datetime.strptime(birth, "%d/%m/%y").date(), age, phone)
-
+        else:
+            QtGui.QMessageBox.about(self, "DATOS CORRUPTOS", "Por favor revise los datos ingresados")
 
         """ print("birth  : " + birth)
         print( " ti " + ti )
@@ -59,13 +60,17 @@ class MainWindows(QtGui.QMainWindow):
         #birth = "10/06/94"
         #self.add.agregaPaciente(idP, "CC" , "luis" , "felipe" , "M" , datetime.datetime.strptime(birth, "%d/%m/%y").date(), "300210593", 21)   def validaDatos(self, idP, name, last, age, phone, year):
 
-        def validaDatos(self, idP, name, last, age, phone, year):
+    def validaDatos(self, idP, name, last, age, phone, year):
             r=True
+            print "fechas "
+            print datetime.datetime.now().year
+            print str(year+int(age))
             try:
-                int(idP) ; r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 and year+age== datetime.datetime.now().year; int(phone)
+                int(idP)
+                r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 and year+int(age)== datetime.datetime.now().year; int(phone)
                 return (r)
             except:
-                QtGui.QMessageBox.about(self, "DATOS CORRUPTOS", "Por favor revise los datos ingresados")
+                return False
 
     def limpia(self):
         self.ui.idp.setText("")
@@ -235,8 +240,8 @@ if __name__=="__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     #pp = TarjetaBitalinoWindow() #seleccionar tarjeta
-    #pp = MainWindows() #Agregar paciente
+    pp = MainWindows() #Agregar paciente
     #pp = pacienteWindow() #seleccionat paciente
-    pp=DiagnosticoWindow("101010101", "CC")
+    #pp=DiagnosticoWindow("101010101", "CC")
     pp.show()
     sys.exit(app.exec_())
