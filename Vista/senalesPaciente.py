@@ -185,11 +185,11 @@ class Ui_MainWindow(object):
         self.actionVer_historial.setText(_translate("MainWindow", "Ver historial", None))
         self.actionDiagn_stico.setText(_translate("MainWindow", "Diagnóstico", None))
 
-
-
     def nuevaMedicion(self):
         self.graficaSenales.orden_senal = 0
         self.graficaSenales.senal_id = AplicacionBitalino.consultarMaxIdSenal() + 1
+
+
     def graficar(self, stream):
         #TODO Agregar parametros para guardar las senales correspondientes al paciente
         self.graficaSenales.graficar(stream)
@@ -228,6 +228,7 @@ class Plot(FigureCanvas):
 
         #TODO Crear un controlador y desacoplar los siguientes atributos de la clase Plot
         self.paciente = None
+        self.diagnostico_id = None
         self.values=[]
         self.values = [0 for x in range(self.am)]
         self.segmento_senal = []
@@ -270,7 +271,7 @@ class Plot(FigureCanvas):
         #verificar si hay que guardar el segmento de la senal
         if(len(self.segmento_senal) == self.longitud_segmento):
             #guardar la senal
-            AplicacionBitalino.agregarSenal( self.senal_id, self.orden_senal, self.segmento_senal, self.paciente.id)
+            AplicacionBitalino.agregarSenal( self.senal_id, self.orden_senal, self.segmento_senal, self.diagnostico_id)
             self.orden_senal+=1
             self.segmento_senal = []
         #agregando el dato al arreglo para graficar
@@ -303,6 +304,8 @@ class Plot(FigureCanvas):
 
         #self.axes.plot([0, 1, 2, 3], l, 'r')
         self.draw()
+    def set_diagnostico(self, diagnostico_id):
+        self.diagnostico_id = diagnostico_id
 
     def set_paciente(self, paciente):
         self.paciente  = paciente

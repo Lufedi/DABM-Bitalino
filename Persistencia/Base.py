@@ -64,7 +64,7 @@ class Diagnostico(Base):
     __tablename__ = 'diagnosticos'
     id = Column(Integer, primary_key= True, autoincrement=True)
     fecha = Column(Date)
-    comentarios = Column(String)
+    comentarios = Column(String, nullable=True)
     paciente = Column(String, ForeignKey('paciente.id') )
 
     def __init__(self, diag, paciente):
@@ -119,6 +119,13 @@ class Agregar():
 class Consulta(object):
     def __init__(self):
         pass
+
+    @classmethod
+    def consultarMaxIdDiagnostrico(self):
+        res  =  session.query(func.max(Diagnostico.id)).first()[0]
+        if res == None:
+            res = 0
+        return res
     @classmethod
     def consularIdUltimaSenal(self):
         res =  session.query(func.max(Senal.id)).first()[0]
