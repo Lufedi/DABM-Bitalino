@@ -162,14 +162,18 @@ class pacienteWindow(QtGui.QMainWindow):
             paciente = AplicacionBitalino.consultarPacientePorId(idP, tiP)
             print(paciente)
             if paciente != None:
-                self.ui.nombre.setText(paciente.nombres)
+                self.ui.nueva_medicion.setEnabled(True)
+                self.ui.nombre.setText(paciente.nombres + " " + paciente.apellidos)
                 self.ui.ID.setText(paciente.id)
                 self.ui.graficaSenales.set_paciente(paciente)
-                self.ui.nueva_medicion.setEnabled(True)
+                AplicacionBitalino.agregarDiagnostico(None, paciente.id)
+                diagnostico = AplicacionBitalino.consultarMaxIdDiagnostrico()
+                self.ui.graficaSenales.set_diagnostico(diagnostico)
+
             else:
                 QtGui.QMessageBox.about(self, "Info", "No se ha encontrado un paciente")
         except Exception as e:
-            print(e)
+            raise e
 
     def realizaDiagnostico(self):
         idP = str(self.ui.busqueda.toPlainText())
