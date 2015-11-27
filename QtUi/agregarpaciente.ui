@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>806</width>
-    <height>570</height>
+    <width>814</width>
+    <height>460</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>400</y>
+      <y>350</y>
       <width>141</width>
       <height>61</height>
      </rect>
@@ -245,7 +245,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>400</y>
+      <y>350</y>
       <width>141</width>
       <height>61</height>
      </rect>
@@ -321,7 +321,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>806</width>
+     <width>814</width>
      <height>21</height>
     </rect>
    </property>
@@ -329,9 +329,22 @@
     <property name="title">
      <string>Opciones</string>
     </property>
+    <addaction name="actionImportar_pacientes"/>
+    <addaction name="separator"/>
+    <addaction name="actionSalir"/>
    </widget>
    <addaction name="menuOpciones"/>
   </widget>
+  <action name="actionImportar_pacientes">
+   <property name="text">
+    <string>Importar pacientes</string>
+   </property>
+  </action>
+  <action name="actionSalir">
+   <property name="text">
+    <string>Salir </string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

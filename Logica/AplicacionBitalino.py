@@ -1,7 +1,3 @@
-
-
-
-
 from Persistencia.Base import *
 from sqlalchemy import func
 from sqlalchemy.exc import OperationalError
@@ -19,6 +15,30 @@ class AplicacionBitalino():
     @classmethod
     def consultarMaxIdDiagnostrico(self):
         return Consulta.consultarMaxIdDiagnostrico()
+
+    @classmethod
+    def importarPacientes(self, path):
+        arch=open(path) ; errores=[]
+        for line in arch:
+            datosPaciente=line.strip().split(";")
+            birth=datetime.datetime.strptime(datosPaciente[5], "%d/%m/%y").date()
+            if(self.validaDatos(datosPaciente[0], datosPaciente[2], datosPaciente[3], datosPaciente[6], datosPaciente[7], birth.year)):
+                self.agregarPaciente(datosPaciente[0], datosPaciente[1], datosPaciente[2],
+                                datosPaciente[3], datosPaciente[4], datosPaciente[5], datosPaciente[6], datosPaciente[7])
+            else:
+                errores.append(str(datosPaciente[1]+" "+datosPaciente[0]))
+        return errores
+
+    @classmethod
+    def validaDatos(self, idP, name, last, age, phone, year):
+            r=True
+            try:
+                int(idP)
+                r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 and year+int(age)== datetime.datetime.now().year; int(phone)
+                return (r)
+            except:
+                return False
+
     @classmethod
     def consultarPacientePorId(self, id, ti):
         try:
@@ -28,7 +48,7 @@ class AplicacionBitalino():
 
     @classmethod
     def agregarPaciente(self, idP, ti, name, last, gender, date, age, phone):
-        Agregar.agregaPaciente(idP, ti, name, last, gender, date, age, phone)
+        Agregar.agregaPaciente(idP, ti, name, last, gender, datetime.datetime.strptime(date, "%d/%m/%y").date(), age, phone)
 
     @classmethod
     def agregarDiagnostico(self, comentarios, paciente):
@@ -70,15 +90,3 @@ class AplicacionBitalino():
     def consularSenalesDelPaciente(self, paciente_id):
         return Consulta.consularSenalesDelPaciente(paciente_id)
 
-    @classmethod
-    def validaDatos(self, idP, name, last, age, phone, year):
-            r=True
-            print "fechas "
-            print datetime.datetime.now().year
-            print str(year+int(age))
-            try:
-                int(idP)
-                r=len(name.strip())>0 and len(last.strip())>0 and age>=0 and len(phone.strip())>0 and year+int(age)== datetime.datetime.now().year; int(phone)
-                return (r)
-            except:
-                return False

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'agregarpaciente.ui'
+# Form implementation generated from reading ui file 'QtUi\agregarpaciente.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -24,13 +24,13 @@ except AttributeError:
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        #MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(806, 570)
+        MainWindow.setObjectName(_fromUtf8("MainWindow"))
+        MainWindow.resize(814, 460)
         MainWindow.setStyleSheet(_fromUtf8(""))
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
         self.send = QtGui.QPushButton(self.centralWidget)
-        self.send.setGeometry(QtCore.QRect(180, 400, 141, 61))
+        self.send.setGeometry(QtCore.QRect(180, 350, 141, 61))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.send.setFont(font)
@@ -114,7 +114,7 @@ class Ui_MainWindow(object):
         self.label_9.setFont(font)
         self.label_9.setObjectName(_fromUtf8("label_9"))
         self.clean = QtGui.QPushButton(self.centralWidget)
-        self.clean.setGeometry(QtCore.QRect(490, 400, 141, 61))
+        self.clean.setGeometry(QtCore.QRect(490, 350, 141, 61))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.clean.setFont(font)
@@ -142,11 +142,18 @@ class Ui_MainWindow(object):
         self.statusBar.setObjectName(_fromUtf8("statusBar"))
         MainWindow.setStatusBar(self.statusBar)
         self.menuBar = QtGui.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 806, 21))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 814, 21))
         self.menuBar.setObjectName(_fromUtf8("menuBar"))
         self.menuOpciones = QtGui.QMenu(self.menuBar)
         self.menuOpciones.setObjectName(_fromUtf8("menuOpciones"))
         MainWindow.setMenuBar(self.menuBar)
+        self.actionImportar_pacientes = QtGui.QAction(MainWindow)
+        self.actionImportar_pacientes.setObjectName(_fromUtf8("actionImportar_pacientes"))
+        self.actionSalir = QtGui.QAction(MainWindow)
+        self.actionSalir.setObjectName(_fromUtf8("actionSalir"))
+        self.menuOpciones.addAction(self.actionImportar_pacientes)
+        self.menuOpciones.addSeparator()
+        self.menuOpciones.addAction(self.actionSalir)
         self.menuBar.addAction(self.menuOpciones.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -165,4 +172,6 @@ class Ui_MainWindow(object):
         self.label_9.setText(_translate("MainWindow", "Edad", None))
         self.clean.setText(_translate("MainWindow", "Limpiar", None))
         self.menuOpciones.setTitle(_translate("MainWindow", "Opciones", None))
+        self.actionImportar_pacientes.setText(_translate("MainWindow", "Importar pacientes", None))
+        self.actionSalir.setText(_translate("MainWindow", "Salir ", None))
 

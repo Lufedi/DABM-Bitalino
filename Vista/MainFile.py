@@ -27,6 +27,7 @@ class MainWindows(QtGui.QMainWindow):
         self.ui.send.clicked.connect(self.enviarPaciente)
         self.ui.clean.clicked.connect(self.limpia)
         self.add=AplicacionBitalino()
+        self.ui.actionImportar_pacientes.setShortcut("Ctrl+I")
         self.connect(self.ui.actionImportar_pacientes, SIGNAL("triggered()"),self.importarPacientes())
 
 
