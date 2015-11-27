@@ -3,6 +3,7 @@ from sqlalchemy.sql.base import _from_objects
 
 
 from PyQt4 import QtGui
+from PyQt4.QtCore import SIGNAL
 from Vista.agregarpacienteGUI import Ui_MainWindow as AgregaPaciente
 from Vista.buscarDispositivosGUI import Ui_MainWindow as Dispositivos
 from Vista.senalesPaciente import Ui_MainWindow as Senales
@@ -107,13 +108,16 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui = Senales()
         self.ui.setupUi(self)
         self.ui.ti.addItems(self.tids)
+        self.preparaVentana()
+        self.accionesMenu()
+
+    def preparaVentana(self):
         self.ui.buscar.clicked.connect(self.buscaPaciente)
         self.ui.agregar.clicked.connect(self.agregaPaciente)
         self.ui.pushButton.clicked.connect(self.detener)
         self.ui.pushButton_2.clicked.connect(self.graficaSenal)
         self.ui.nueva_medicion.clicked.connect(self.nuevaMedicion)
         self.ui.finalizar_medicion.clicked.connect(self.terminarMedicion)
-        
         self.ui.pushButton.setDisabled(True)
         self.ui.pushButton_2.setDisabled(True)
         self.ui.nueva_medicion.setDisabled(True)
@@ -122,9 +126,12 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.nombre.setDisabled(True) ; self.ui.ID.setDisabled(True)
         self.ventanaAgregar=MainWindows()
 
-
     def agregaPaciente(self):
         self.ventanaAgregar.show()
+
+    def accionesMenu(self):
+        self.ui.actionDiagn_stico.setShortcut("Ctrl+D")
+        self.connect(self.ui.actionDiagn_stico, SIGNAL("triggered()"), self.realizaDiagnostico())
 
 
 
@@ -177,7 +184,7 @@ class pacienteWindow(QtGui.QMainWindow):
 
     def realizaDiagnostico(self):
         idP = str(self.ui.busqueda.toPlainText())
-        tiP = self.tids[self.ui.ti.currentIndex()]
+        tiP = str(self.tids[self.ui.ti.currentIndex()])
         if(len(idP)>0 and len(tiP)>0):
             self.ventanaDiagnostico=DiagnosticoWindow(idP, tiP)
             self.ventanaDiagnostico.show()
