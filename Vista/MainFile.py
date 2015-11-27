@@ -141,7 +141,12 @@ class pacienteWindow(QtGui.QMainWindow):
     def accionesMenu(self):
         self.ui.actionDiagn_stico.setShortcut("Ctrl+D")
         self.connect(self.ui.actionDiagn_stico, SIGNAL("triggered()"), self.realizaDiagnostico)
+        self.ui.actionTarjeta_Bitalino.setShortcut("Ctrl+T")
+        self.connect(self.ui.actionTarjeta_Bitalino, SIGNAL("triggered()"), self.seleccionaTarjeta)
 
+    def seleccionaTarjeta(self):
+        self.ejec=TarjetaBitalinoWindow()
+        self.ejec.show()
 
     def terminarMedicion(self):
         self.ui.finalizar_medicion.setDisabled(True)

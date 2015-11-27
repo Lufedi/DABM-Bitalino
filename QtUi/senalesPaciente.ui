@@ -294,6 +294,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionVer_historial"/>
     <addaction name="actionDiagn_stico"/>
+    <addaction name="actionTarjeta_Bitalino"/>
    </widget>
    <addaction name="menuOpciones"/>
   </widget>
@@ -306,6 +307,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionDiagn_stico">
    <property name="text">
     <string>Diagnóstico</string>
+   </property>
+  </action>
+  <action name="actionTarjeta_Bitalino">
+   <property name="text">
+    <string>Tarjeta Bitalino</string>
    </property>
   </action>
  </widget>
