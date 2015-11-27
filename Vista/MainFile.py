@@ -87,6 +87,9 @@ class TarjetaBitalinoWindow(QtGui.QMainWindow):
         self.ui.conectar.clicked.connect(self.conectar)
         self.ui.Leer.clicked.connect(self.leer)
         self.adaptador = Adaptador()
+        self.ui.conectar.setDisabled(True)
+        self.ui.Leer.setDisabled(True)
+        self.ui.plainTextEdit.setDisabled(True)
 
     def buscarDispositivos(self):
         self.ui.comboBox.clear()
@@ -95,21 +98,28 @@ class TarjetaBitalinoWindow(QtGui.QMainWindow):
         l = self.adaptador.encontrarDispositivos()
         for d in l:
             print(d[0], d[1])
-            self.dispositivos.append(str(d[0])+" "+str(d[1]))
+            self.dispositivos.append(str(d[0])+"-"+str(d[1]))
         self.ui.comboBox.addItems(self.dispositivos)
+        self.ui.conectar.setEnabled(True)
 
     def conectar(self):
-        print("Conectando")
-        mac  = (self.ui.comboBox.currentText()).split("-")[0]
-        print(mac)
-        self.adaptador.conectarseADispositivo(mac)
+        try:
+
+            mac  = str((self.ui.comboBox.currentText()).split("-")[0])
+            print(mac)
+            self.adaptador.conectarseADispositivo(mac)
+            QtGui.QMessageBox.about(self, "ACCION", "Se ha conectado correctamente al dispositivo " + mac)
+            self.close()
+        except:
+            QtGui.QMessageBox.about(self, "ERROR", "Han habido problemas conectando el dispositivo")
+
 
     def leer(self):
-        print("Leyendo")
-        self.adaptador.comenzar([0])
-        data =  self.adaptador.leer()
-        self.ui.plainTextEdit.setPlainText(str(data[4:]))
-
+        #print("Leyendo")
+        #self.adaptador.comenzar([0])
+        #data =  self.adaptador.leer()
+        #self.ui.plainTextEdit.setPlainText(str(data[4:]))
+        pass
 class pacienteWindow(QtGui.QMainWindow):
     def __init__(self, *args, **kwargs):
         self.tids=["CC", "CE", "TI", "Registro Civil"]
@@ -158,40 +168,46 @@ class pacienteWindow(QtGui.QMainWindow):
         self.ui.nueva_medicion.setDisabled(True)
         self.ui.finalizar_medicion.setEnabled(True)
 
+
     def graficaSenal(self):
         adaptador = Adaptador()
         i = adaptador.getInputStream()
         adaptador.comenzarAGraficar()
         self.ui.pushButton_2.setEnabled(False)
         self.ui.pushButton.setEnabled(True)
+        self.ui.finalizar_medicion.setDisabled(True)
         self.ui.graficar(i)
 
     def detener(self):
         self.ui.pushButton.setEnabled(False)
         self.ui.pushButton_2.setEnabled(True)
         self.ui.detener()
+        self.ui.finalizar_medicion.setEnabled(True)
 
     #TODO crear un controlador que desacople la logica de la vista
     def buscaPaciente(self):
-        try:
-            #Limpiar los campos
-            self.ui.nombre.setText("")
-            self.ui.ID.setText("")
-            idP = str(self.ui.busqueda.toPlainText())
-            tiP = self.tids[self.ui.ti.currentIndex()]
-            paciente = AplicacionBitalino.consultarPacientePorId(idP, tiP)
-            print(paciente)
-            if paciente != None:
-                self.ui.nueva_medicion.setEnabled(True)
-                self.ui.nombre.setText(paciente.nombres + " " + paciente.apellidos)
-                self.ui.ID.setText(paciente.id)
-                self.ui.graficaSenales.set_paciente(paciente)
-                AplicacionBitalino.agregarDiagnostico(None, paciente.id)
-                diagnostico = AplicacionBitalino.consultarMaxIdDiagnostrico()
-                self.ui.graficaSenales.set_diagnostico(diagnostico)
 
+        try:
+            if Adaptador.mac != None:
+                #Limpiar los campos
+                self.ui.nombre.setText("")
+                self.ui.ID.setText("")
+                idP = str(self.ui.busqueda.toPlainText())
+                tiP = self.tids[self.ui.ti.currentIndex()]
+                paciente = AplicacionBitalino.consultarPacientePorId(idP, tiP)
+                print(paciente)
+                if paciente != None:
+                    self.ui.nueva_medicion.setEnabled(True)
+                    self.ui.nombre.setText(paciente.nombres + " " + paciente.apellidos)
+                    self.ui.ID.setText(paciente.id)
+                    self.ui.graficaSenales.set_paciente(paciente)
+                    AplicacionBitalino.agregarDiagnostico(None, paciente.id)
+                    diagnostico = AplicacionBitalino.consultarMaxIdDiagnostrico()
+                    self.ui.graficaSenales.set_diagnostico(diagnostico)
+                else:
+                    QtGui.QMessageBox.about(self, "INFO", "No se ha encontrado un paciente")
             else:
-                QtGui.QMessageBox.about(self, "Info", "No se ha encontrado un paciente")
+                QtGui.QMessageBox.about(self, "INFO", "No ha conectado un dispositivo de lectura")
         except Exception as e:
             raise e
 
@@ -215,12 +231,13 @@ class DiagnosticoWindow(QtGui.QMainWindow):
         self.ui.IDp.setText(self.idP) ; self.ui.IDp.setEnabled(False)
         paciente=AplicacionBitalino.consultarPacientePorId(self.idP, self.tiP)
         self.ui.nombreP.setText(paciente.nombres+" "+paciente.apellidos)
-        self.ui.Guardar.clicked.connect(self.agregaDiagnostico)
+        self.ui.Guardar.clicked.connect(self.actualizarDiagnostico)
 
-    def agregaDiagnostico(self):
+    def actualizarDiagnostico(self):
         comentarios=str(self.ui.textEdit.toPlainText())
-        AplicacionBitalino.agregarDiagnostico(comentarios, self.idP)
-
+        #AplicacionBitalino.agregarDiagnostico(comentarios, self.idP)
+        AplicacionBitalino.actualizarDiagnostico(comentarios, self.idP)
+        self.close()
 """def v1():
     import sys
     app = QtWidgets.QApplication(sys.argv)

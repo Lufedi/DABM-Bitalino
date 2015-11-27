@@ -9,9 +9,14 @@ import datetime
 from sqlalchemy.sql import table, column, select, update, insert, and_
 
 class AplicacionBitalino():
+    diagnostico_id = None
     def __init__(self):
         pass
 
+
+    @classmethod
+    def actualizarDiagnostico(self, comentarios, idP):
+        Agregar.actualizarDiagnostico(AplicacionBitalino.diagnostico_id, comentarios, idP)
     @classmethod
     def consultarMaxIdDiagnostrico(self):
         return Consulta.consultarMaxIdDiagnostrico()

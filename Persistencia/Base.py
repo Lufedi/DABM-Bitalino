@@ -114,6 +114,15 @@ class Agregar():
         dia = Diagnostico(comentarios, paciente)
         session.add(dia)
         session.commit()
+    @classmethod
+    def actualizarDiagnostico(self,diagnostico_id, comentarios, paciente):
+        Base.metadata.create_all(engine)
+        session.query(Diagnostico).filter(Diagnostico.id == diagnostico_id).update({'comentarios':comentarios})
+        session.commit()
+
+
+
+
 
 
 class Consulta(object):

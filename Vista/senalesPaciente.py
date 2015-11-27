@@ -198,6 +198,7 @@ class Ui_MainWindow(object):
     def nuevaMedicion(self):
         self.graficaSenales.orden_senal = 0
         self.graficaSenales.senal_id = AplicacionBitalino.consultarMaxIdSenal() + 1
+        self.graficaSenales.nueva_medicion()
 
 
     def graficar(self, stream):
@@ -207,6 +208,9 @@ class Ui_MainWindow(object):
     def detener(self):
         self.graficaSenales.detener()
 class Plot(FigureCanvas):
+
+
+
     def __init__(self,parent=None, width=20, height=20, dpi=100):
         #fig = Figure(figsize=(width, height), dpi=dpi )
         #self.axes = fig.add_subplot(111)
@@ -239,7 +243,7 @@ class Plot(FigureCanvas):
 
         #TODO Crear un controlador y desacoplar los siguientes atributos de la clase Plot
         self.paciente = None
-        self.diagnostico_id = None
+
         self.values=[]
         self.values = [0 for x in range(self.am)]
         self.segmento_senal = []
@@ -282,7 +286,7 @@ class Plot(FigureCanvas):
         #verificar si hay que guardar el segmento de la senal
         if(len(self.segmento_senal) == self.longitud_segmento):
             #guardar la senal
-            AplicacionBitalino.agregarSenal( self.senal_id, self.orden_senal, self.segmento_senal, self.diagnostico_id)
+            AplicacionBitalino.agregarSenal( self.senal_id, self.orden_senal, self.segmento_senal,AplicacionBitalino.diagnostico_id)
             self.orden_senal+=1
             self.segmento_senal = []
         #agregando el dato al arreglo para graficar
@@ -316,10 +320,19 @@ class Plot(FigureCanvas):
         #self.axes.plot([0, 1, 2, 3], l, 'r')
         self.draw()
     def set_diagnostico(self, diagnostico_id):
-        self.diagnostico_id = diagnostico_id
+        AplicacionBitalino.diagnostico_id = diagnostico_id
 
     def set_paciente(self, paciente):
         self.paciente  = paciente
+
+    def nueva_medicion(self):
+        self.values=[]
+        self.values = [0 for x in range(self.am)]
+        CurrentXAxis=pylab.arange(len(self.values)-self.am,len(self.values),1)
+        self.line1[0].set_data(CurrentXAxis,pylab.array(self.values[-self.am:]))
+        self.ax.axis([CurrentXAxis.min(),CurrentXAxis.max(),-1*self.amplitud,self.amplitud])
+        self.manager.canvas.draw()
+        print("repindanto ")
 
     #timer = fig.canvas.new_timer(interval=1)
     #timer.add_callback(RealtimePloter, ())

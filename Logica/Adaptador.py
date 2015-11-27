@@ -6,13 +6,14 @@ import Queue
 import threading
 class Reader(threading.Thread):
 
-    def __init__(self, stream):
+    def __init__(self, stream , mac):
         threading.Thread.__init__(self)
         self.N = 100
         self.SampligRate = 1000
         self.device = None
         self.stream = stream
         self.delta = -500
+        self.mac = mac
     #Retorna una lista de los dispositivos que encuentra por bluetooth
 
     def encontrarDispositivos(self):
@@ -41,7 +42,8 @@ class Reader(threading.Thread):
     def run(self):
         print "Soy el hilo"
         #print (a.encontrarDispositivos())
-        self.conectarseADispositivo("98:D3:31:B2:12:18")
+        #self.conectarseADispositivo("98:D3:31:B2:12:18")
+        self.encontrarDispositivos(Adaptador.mac)
         self.comenzar([0])
         res = [0]
         cont =30
@@ -66,16 +68,29 @@ class Reader(threading.Thread):
 import threading
 
 class Adaptador(object):
+    mac = None
     def __init__(self):
         #self.canales = {'ECG': 5 , ''}
         self.input = Queue.Queue()
         self.canal = 5
+        self.tarjeta = None
+
+    def encontrarDispositivos(self):
+        dispositivos =  bitalino.find()
+        return  dispositivos
+    #Se crea la conexion con el dispositivo
+    #Retorna el dispositivo ya conectado
+    def conectarseADispositivo(self, mac):
+        #print "conectando a  " + mac
+        #self.device = bitalino.BITalino(mac)
+        #return self.device
+        Adaptador.mac = mac
     def comenzarAGraficar(self):
 
 
 
         #obtener los datos de la tarjeta
-        #hilo = Reader(self.getInputStream())
+        #hilo = Reader(self.getInputStream() )
         #hilo.start()
 
         #obtener los datos de un archivo de prueba
